@@ -65,37 +65,37 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Maven.ExportPDF [clean,install,-X].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.ExportPDF [clean,install].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.ExportPDF [quarkus:build].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.Microservice [clean,install,-X].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.Microservice [clean,install,-e].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.Microservice [clean,install].executor&quot;: &quot;Run&quot;,
-    &quot;Quarkus.Authentication.executor&quot;: &quot;Run&quot;,
-    &quot;Quarkus.ExportPDF.executor&quot;: &quot;Run&quot;,
-    &quot;Quarkus.ImportXML.executor&quot;: &quot;Run&quot;,
-    &quot;Quarkus.SearchMicroservice.executor&quot;: &quot;Run&quot;,
-    &quot;Quarkus.notification.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;Tomcat Server.Front-end.executor&quot;: &quot;Run&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;AllMySolutionWithKafka&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;run.configurations.included.in.services&quot;: &quot;true&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;MavenSettings&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Maven.ExportPDF [clean,install,-X].executor": "Run",
+    "Maven.ExportPDF [clean,install].executor": "Run",
+    "Maven.ExportPDF [quarkus:build].executor": "Run",
+    "Maven.Microservice [clean,install,-X].executor": "Run",
+    "Maven.Microservice [clean,install,-e].executor": "Run",
+    "Maven.Microservice [clean,install].executor": "Run",
+    "Quarkus.Authentication.executor": "Run",
+    "Quarkus.ExportPDF.executor": "Run",
+    "Quarkus.ImportXML.executor": "Run",
+    "Quarkus.SearchMicroservice.executor": "Run",
+    "Quarkus.notification.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "Tomcat Server.Front-end.executor": "Run",
+    "git-widget-placeholder": "master",
+    "kotlin-language-version-configured": "true",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.2",
+    "run.configurations.included.in.services": "true",
+    "settings.editor.selected.configurable": "MavenSettings",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RunAnythingCache">
     <option name="myCommands">
       <command value="mvn clean install -e" />
@@ -632,7 +632,7 @@
       <workItem from="1748426811282" duration="984000" />
       <workItem from="1748440830585" duration="363000" />
       <workItem from="1748441214870" duration="103000" />
-      <workItem from="1748441332160" duration="671000" />
+      <workItem from="1748441332160" duration="972000" />
     </task>
     <task id="LOCAL-00001" summary="All the solution with the txt file">
       <option name="closed" value="true" />
