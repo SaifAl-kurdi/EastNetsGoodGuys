@@ -1,0 +1,9 @@
+dtos\NotificationDTO.class
+controller\NotificationController.class
+kafkaTopic\KafkaTopicCreator.class
+zookeeper\ServiceRegistrar.class
+META-INF\panache-archive.marker
+service\NotificationService.class
+model\NotificationModel.class
+repository\NotificationRepository.class
+zookeeper\ZookeeperClientService.class

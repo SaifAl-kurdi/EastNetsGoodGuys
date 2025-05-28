@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
+              name="goodGuysReport" pageWidth="2050" pageHeight="842" orientation="Landscape" columnWidth="802"
+              leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+
+    <parameter name="REPORT_DIR" class="java.lang.String"/>
+
+    <field name="id" class="java.lang.Integer"/>
+    <field name="acceptedString" class="java.lang.String"/>
+    <field name="condition" class="java.lang.String"/>
+    <field name="comments" class="java.lang.String"/>
+    <field name="creationDate" class="java.lang.String"/>
+    <field name="createdBy" class="java.lang.String"/>
+    <field name="reportViolations" class="java.lang.String"/>
+    <field name="shared" class="java.lang.String"/>
+    <field name="rank" class="java.lang.Integer"/>
+    <field name="acceptedMatches" class="java.util.List"/>
+
+    <title>
+        <band height="40">
+            <staticText>
+                <reportElement x="0" y="0" width="300" height="40"/>
+                <textElement>
+                    <font size="18" isBold="true"/>
+                </textElement>
+                <text><![CDATA[GoodGuys Report]]></text>
+            </staticText>
+        </band>
+    </title>
+
+    <pageHeader>
+        <band height="20">
+            <staticText>
+                <reportElement x="0" y="0" width="842" height="20"/>
+                <text><![CDATA[This is the page header for the GoodGuys report.]]></text>
+            </staticText>
+        </band>
+    </pageHeader>
+
+    <columnHeader>
+        <band height="30" splitType="Stretch">
+            <staticText>
+                <reportElement x="0" y="0" width="100" height="18"/>
+                <textElement>
+                    <font fontName="Times New Roman" size="12" isBold="true"/>
+                </textElement>
+                <text><![CDATA[ID]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="100" y="0" width="150" height="18"/>
+                <textElement>
+                    <font fontName="Times New Roman" size="12" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Accepted String]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="250" y="0" width="150" height="18"/>
+                <textElement>
+                    <font fontName="Times New Roman" size="12" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Condition]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="400" y="0" width="150" height="18"/>
+                <textElement>
+                    <font fontName="Times New Roman" size="12" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Comments]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="550" y="0" width="150" height="18"/>
+                <textElement>
+                    <font fontName="Times New Roman" size="12" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Creation Date]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="700" y="0" width="100" height="18"/>
+                <textElement>
+                    <font fontName="Times New Roman" size="12" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Created By]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="850" y="0" width="100" height="18"/>
+                <textElement>
+                    <font fontName="Times New Roman" size="12" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Report Violations]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="1000" y="0" width="100" height="18"/>
+                <textElement>
+                    <font fontName="Times New Roman" size="12" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Shared]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="1150" y="0" width="100" height="18"/>
+                <textElement>
+                    <font fontName="Times New Roman" size="12" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Rank]]></text>
+            </staticText>
+        </band>
+    </columnHeader>
+
+    <detail>
+        <band height="150" splitType="Stretch">
+            <textField>
+                <reportElement x="0" y="0" width="100" height="18"/>
+                <textFieldExpression><![CDATA[$F{id}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="100" y="0" width="150" height="18"/>
+                <textFieldExpression><![CDATA[$F{acceptedString}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="250" y="0" width="150" height="18"/>
+                <textFieldExpression><![CDATA[$F{condition}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="400" y="0" width="150" height="18"/>
+                <textFieldExpression><![CDATA[$F{comments}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="550" y="0" width="150" height="18"/>
+                <textFieldExpression><![CDATA[$F{creationDate}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="700" y="0" width="100" height="18"/>
+                <textFieldExpression><![CDATA[$F{createdBy}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="850" y="0" width="100" height="18"/>
+                <textFieldExpression><![CDATA[$F{reportViolations} != null && $F{reportViolations}.equals("1") ? "Yes" :($F{reportViolations} != null && $F{reportViolations}.equals("0") ? "No" : "")]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="1000" y="0" width="100" height="18"/>
+                <textFieldExpression><![CDATA[$F{shared} != null && $F{shared}.equals("1") ? "Yes" :($F{shared} != null && $F{shared}.equals("0") ? "No" : "")]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="1150" y="0" width="100" height="18"/>
+                <textFieldExpression><![CDATA[$F{rank}]]></textFieldExpression>
+            </textField>
+
+            <subreport>
+                <reportElement x="0" y="50" width="800" height="100"/>
+                <dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{acceptedMatches})]]></dataSourceExpression>
+                <subreportExpression><![CDATA[$P{REPORT_DIR} + "acceptedMatchesSubreport.jasper"]]></subreportExpression>
+            </subreport>
+        </band>
+    </detail>
+
+    <columnFooter>
+        <band height="20">
+            <staticText>
+                <reportElement x="0" y="0" width="842" height="20"/>
+                <text><![CDATA[This is the column footer.]]></text>
+            </staticText>
+        </band>
+    </columnFooter>
+
+    <pageFooter>
+        <band height="25" splitType="Stretch">
+            <textField evaluationTime="Report">
+                <reportElement x="757" y="3" width="40" height="20"/>
+                <textFieldExpression><![CDATA["Page " + $V{PAGE_NUMBER}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="2" y="3" width="200" height="20"/>
+                <textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+            </textField>
+        </band>
+    </pageFooter>
+
+    <summary>
+        <band height="20">
+            <staticText>
+                <reportElement x="0" y="0" width="842" height="20"/>
+                <text><![CDATA[End of GoodGuys Report]]></text>
+            </staticText>
+        </band>
+    </summary>
+
+</jasperReport>

@@ -1,0 +1,7 @@
+services\ZooKeeperClientService.class
+zookeeper\ZooKeeperService.class
+services\ImportXMLServiceRegistration.class
+services\SearchServiceRegistration.class
+META-INF\panache-archive.marker
+zookeeper\ApiGateway.class
+services\AuthenticationServiceRegistration.class

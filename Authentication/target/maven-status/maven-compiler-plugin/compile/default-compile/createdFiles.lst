@@ -1,0 +1,12 @@
+eastNets\generateJWT\GenerateToken.class
+eastNets\model\User.class
+eastNets\dtos\UserDTO.class
+eastNets\repository\UserRepository.class
+eastNets\repository\UserRepositoryImplementation.class
+eastNets\controller\UserController.class
+META-INF\panache-archive.marker
+eastNets\service\AuthenticationService.class
+eastNets\generateJWT\GenerateTokenImplementation.class
+eastNets\zookeeper\ServiceRegistrar.class
+eastNets\zookeeper\ZookeeperClientService.class
+eastNets\service\AuthenticationServiceImplementation.class
