@@ -1,0 +1,117 @@
+Search microservice:
+1- Chick on the repository.
+
+Export PDF:
+1- Chick on the singleton.
+2- FileInputStream
+3- Return Response.
+4- JRBeanCollectionDataSource
+5- JasperExportManager
+
+Import XML:
+1- Parse XML function in GoodGuysXMLImporter
+2- validateData function in GoodGuysXMLImporter
+3- mapToEntities function in GoodGuysXMLImporter
+4- @PersistenceContext in XMLRepository
+5- entityManager.flush() in XMLRepository
+
+Token validator library:
+1- implements ContainerRequestFilter
+2- Filter function in TokenFilter.
+
+Read all the code and got them.
+__________________________________________________________________________________________________________________________________________________________________________________________________________________
+
+1- JSF Server faces life cycle. 								                            // Is Done.
+2- Change the name of functions on my code.							                        // Is Done.
+3- Try to make clean code.									                                // Is Done.
+4- Try to change from JPQL to another have less query language.					            // Is Done.
+5- Read about the scopes (Annotations).								                        // Is Doen.
+6- JWT validation thing ,,, remove it from all methods and let it be in the interceptor.	// Is Done.
+7- Try to send object as JSON in the rest service.						                    // Is Done.
+
+Read More:
+	- JSF - Primefaces (Web Development).
+	- Quarkus.
+	- JPA - hibernate.
+	- Web services (rest): Make a specific point (specific area), and make a different devices communicate together using webservices. (Service Delivered Over The Web.) (Req And Res Throw The Web) See The 2-ExplanationForVariousConcept.
+	- Security.
+	- Micro-Services architecture.
+	- Design Patterns.
+	- Some DB queries.
+
+
+RollBack and Commit in @Transactional.
+Eager and Lazy.
+
+Needed now:
+	- Some Unit Test.	                                                                    // Is Done.
+	- Packaging.		                                                                    // Is Done.
+	- ERD diagram.		                                                                    // Is Done.
+
+1- Transactional thing in hibernate.										                                //Done.
+2- Knowledge on the locking.											                                    //Done.
+3- Read about the webservices types ,, mainly the soap and rest , what is the different between them.		//Done.
+
+
+__________________________________________________________________________________________________________________________________________________________________________________________________________________
+
+
+//Important Concept (Pagination).
+
+I should study in this weekend:
+    - Kafka. Message broker, Message Passing System. (Open Source Project)
+    - Dockers.
+    - Service Mesh.
+
+    - Streams.
+    - Map:
+        1- Map.
+        2- HashMap.
+        3- Hashtable.
+        4- TreeMap.
+        5- ConcurrentHashMap.
+        6- LinkedHashMap.
+    - Vectors.
+    - Array.
+    - list.
+    - Array list.
+    - Set.
+    - Linked List.
+    - Queue.
+    - Stack.
+    - Generic
+    - Tree.
+    - Graph.
+    - ENUM.
+    - Response().
+    - Faces Context.
+    - Collectors.
+    - Primitive and Non-Primitive.
+    - Wrappers.
+    - Search more about the search and sorting algorithms.
+    - Also, Search about the most popular algorithms.
+    - Socket.
+    - Cookies.
+    - Session.
+
+
+
+
+
+    Study these topics (Collectors):
+        - LinkedList
+        - ArrayList
+        - Map interface
+        - Queue interface
+        - Collectors#counting()
+        - Collectors#mapping()
+        - Collectors.tocollection()
+        - Collectors.tolist()
+        - Deque interface
+        - HashSet
+        - LinkedHashSet
+        - List interface
+        - Set interface
+        - SortedMap interface
+        - Vector

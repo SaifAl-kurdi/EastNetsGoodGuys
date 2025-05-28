@@ -1,0 +1,98 @@
+    Feature                 |                            Checked Exception                                          |           Unchecked Exception
+____________________________|_______________________________________________________________________________________|_______________________________________________________________________
+    Behavior                |                Checked exceptions are checked at compile time.                        |  Unchecked exceptions are checked at run time.
+____________________________|_______________________________________________________________________________________|_______________________________________________________________________
+    Base class              |                            Derived from Exception                                     |           Derived from RuntimeException
+____________________________|_______________________________________________________________________________________|_______________________________________________________________________
+    Cause                   |   External factors like file I/O and database connection cause the checked Exception. |  Programming bugs like logical Error cause the unchecked Exception.
+____________________________|_______________________________________________________________________________________|_______________________________________________________________________
+    Handling Requirement    |    Checked exception must be handled using                                            |
+                            |      try-catch block or must be declared using throw keyword                          |           No handling is required
+____________________________|_______________________________________________________________________________________|_______________________________________________________________________
+    Examples                |                    IOException, SQLException, FileNotFoundException.                  |  NullPointerException, ArrayIndexOutOfBoundsException.
+____________________________|_______________________________________________________________________________________|_______________________________________________________________________
+
+
+- Checked Exception: These exceptions are checked at compile time, forcing the programmer to handle them explicitly.
+- Unchecked Exception: These exceptions are checked at runtime and do not require explicit handling at compile time.
+
+
+Checked Exceptions In Java
+    Checked Exception are exceptions that are checked at the compile time. If a method throw a checked Exception then the exception must be handled using the try-catch block and declare the exception in method signature using the throw keyword.
+
+    Types of checked Exception
+        - Fully Checked Exception: A checked exception where all its child classes are also checked (e.g., IOException, InterruptedException).
+        - Partially Checked Exception: A checked exception where some of its child classes are unchecked (e.g., Exception).
+        - Checked exceptions represent invalid conditions in areas outside the immediate control of the program (like memory, network, file system, etc.). Any checked exception is a subclass of Exception. Unlike unchecked exceptions, checked exceptions must be either caught by the caller or listed as part of the method signature using the throws keyword.
+
+    Example:
+
+    import java.io.*;
+    class Geeks {
+
+        public static void main(String[] args) {
+            FileReader f= new FileReader("C:\\test\\a.txt");
+            BufferedReader b = new BufferedReader(f);
+            for (int counter = 0; counter < 3; counter++)
+                System.out.println(f.readLine());
+            f.close();
+        }
+    }
+
+    To fix the above program, we either need to specify a list of exceptions using throws, or we need to use a try-catch block. We have used throws in the below program. Since FileNotFoundException is a subclass of IOException, we can just specify IOException in the throws list and make the above program compiler-error-free.
+
+    Example: Handling Checked Exception
+    import java.io.*;
+    class Geeks {
+
+        public static void main(String[] args)
+            throws IOException
+        {
+
+            FileReader f = new FileReader("C:\\test\\a.txt");
+
+            BufferedReader fi = new BufferedReader(f);
+
+            for (int i = 0; i < 2; i++)
+                System.out.println(fi.readLine());
+
+            fileInput.close();
+        }
+    }
+
+
+
+
+Unchecked Exceptions in Java
+    Unchecked Exception are exceptions that are not checked at the compile time. In Java, exceptions under Error and RuntimeException classes are unchecked exceptions, everything else under throwable is checked.
+
+    Consider the following Java program. It compiles fine, but it throws ArithmeticException when run. The compiler allows it to compile because ArithmeticException is an unchecked exception.
+
+    Example:
+    class Geeks {
+        public static void main(String args[]) {
+            int x = 0;
+            int y = 10;
+            int z = y / x;
+        }
+    }
+
+    Note:
+        - Unchecked exceptions are runtime exceptions that are not required to be caught or declared in a throws clause.
+        - These exceptions are caused by programming errors, such as attempting to access an index out of bounds in an array or attempting to divide by zero.
+        - Unchecked exceptions include all subclasses of the RuntimeException class, as well as the Error class and its subclasses.
+        - The separation into checked and unchecked exceptions sounded like a good idea at the time. However, over the years, it has introduced more boilerplate and less aesthetically pleasing code patterns than it solved real problems. The typical (and unfortunately quite cumbersome) pattern within the Java ecosystem is to hide (or wrap) the checked exception within an unchecked one.
+
+    Example:
+
+    try {
+
+    } catch( final IOException ex ) {
+    throw new RuntimeException( “I/O operation failed”, ex );
+    }
+
+
+
+
+
+

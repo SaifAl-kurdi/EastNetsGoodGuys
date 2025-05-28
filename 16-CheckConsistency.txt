@@ -1,0 +1,78 @@
+What Is Check Consistency?
+Check consistency is a verification mechanism used to ensure that all expected data has been correctly processed, stored, or transferred — without corruption, loss, or mismatch.
+
+A consistency check compares the data between a reference server and one or more target servers and then generates a report that describes any inconsistencies. You can choose to repair inconsistent rows during a consistency check.
+
+A consistency check is a test performed to determine if the data has any internal conflicts. More specifically, whether or not the rules written for data have contradictory statements. For example, a consistency check is often run to ensure a package's shipping date is not before the order date.
+
+In your context (FTP → Kafka → Microservices → Database), check consistency ensures:
+- Every file that was uploaded is completely parsed.
+- Every chunk that was parsed is persisted correctly.
+- No data is missing, duplicated, or corrupted.
+
+
+Stage, What Can Go Wrong, Consistency Check Needed?
+- File upload to FTP, Incomplete upload, wrong format, ✅Yes
+- FTP to Back-End, File skipped or failed to read, ✅ Yes
+- Back-End to Kafka, Kafka dropped or missed a chunk, ✅ Yes
+- Kafka to Persist Service, Messages out of order, dropped, delayed, ✅ Yes
+- Persist to DB, Rows missing or corrupted, ✅ Yes
+
+How to Use Check Consistency in Your Architecture
+Let’s walk through it stage-by-stage using fileId, totalChunks, and checksums.
+
+1. Generate Metadata During File Upload
+When a file is uploaded (FTP or REST), generate metadata:
+- fileId
+- originalSize
+- expectedLineCount
+- (Optional) checksum (e.g., SHA256 of the file)
+
+This metadata is stored in a file_status collection or table for tracking:
+{
+  "fileId": "abc123",
+  "filename": "data.xml",
+  "expectedChunks": 120,
+  "status": "uploaded",
+  "checksum": "x23b...f",
+  "receivedChunks": 0
+}
+
+2. Verify All Kafka Chunks Were Processed
+The persist microservice should track:
+- How many messages were actually received
+- Compare with expectedChunks from the END_OF_FILE Kafka message
+
+3. If receivedChunks == expectedChunks, then:
+✅ All chunks processed
+✅ Mark file_status.status = "persisted"
+
+3. Validate With Checksum (Optional but Strong)
+After the data is fully saved:
+- Reconstruct the data (or file) temporarily
+- Calculate checksum again (e.g., SHA256)
+- Compare it with original checksum provided at upload
+
+If the checksum matches ✅ → data is consistent
+If not ❌ → something went wrong during parse/store → trigger reprocessing or alert
+
+4. Expose a Consistency Check API (Optional)
+You can create a REST endpoint in your persist service:
+GET /api/file-status/{fileId}
+
+Returns:
+{
+  "fileId": "abc123",
+  "status": "completed",
+  "expectedChunks": 120,
+  "receivedChunks": 120,
+  "checksumValid": true
+}
+
+✅ Tools/Strategies You Can Use
+Strategy, Purpose
+Chunk counter, Verify received = expected
+END_OF_FILE message, Identify expected chunk count
+Checksum (SHA-256), Ensure no corruption
+Audit log / status table, Track progress per file (fileId)
+Retry logic, Re-process failed/missing chunks

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="ExportPDF" />
+        <module name="notification" />
+        <module name="SearchMicroservice" />
+        <module name="TokenValidatorLibrary" />
+        <module name="Authentication" />
+        <module name="ImportXML" />
+        <module name="Front-end" />
+        <module name="goodGuysFilter" />
+      </profile>
+    </annotationProcessing>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="Authentication" options="-parameters" />
+      <module name="ExportPDF" options="-parameters" />
+      <module name="ImportXML" options="-parameters" />
+      <module name="Microservice" options="-parameters" />
+      <module name="SearchMicroservice" options="-parameters" />
+      <module name="TokenValidatorLibrary" options="-parameters" />
+      <module name="goodGuysFilter" options="-parameters" />
+      <module name="notification" options="-parameters" />
+    </option>
+  </component>
+</project>

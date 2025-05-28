@@ -1,0 +1,15 @@
+-- Notification
+
+Create Database Notification;
+
+CREATE TABLE messages (
+    id INT PRIMARY KEY IDENTITY,
+    message VARCHAR(255) NOT NULL
+);
+
+
+Drop table messages
+
+Select * From messages
+
+INSERT INTO messages ([message]) VALUES ('The data loaded successfully');

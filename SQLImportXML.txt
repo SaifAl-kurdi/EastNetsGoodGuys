@@ -1,0 +1,35 @@
+-- XMLImport
+
+Create Database XMLImport;
+
+CREATE TABLE GoodGuys (
+    id INT PRIMARY KEY IDENTITY,
+    acceptedString VARCHAR(255),
+    condition VARCHAR(255),
+    comments VARCHAR(255),
+    creationDate VARCHAR(255),
+    createdBy VARCHAR(255),
+    reportViolations VARCHAR(255),
+    shared VARCHAR(255),
+    rank INT
+);
+
+CREATE TABLE AcceptedMatches (
+    id INT PRIMARY KEY IDENTITY,
+    checkSum VARCHAR(255),
+    externalID VARCHAR(255),
+    listName VARCHAR(255),
+    acceptedMatch VARCHAR(255),
+    entityMainName VARCHAR(255),
+    goodguy_id INT NOT NULL,
+    FOREIGN KEY (goodguy_id) REFERENCES GoodGuys(id) ON DELETE CASCADE
+);
+
+
+Select * From GoodGuys Inner Join AcceptedMatches On GoodGuys.id = AcceptedMatches.goodguy_id
+Select count(*) From GoodGuys
+Select * From AcceptedMatches
+
+Drop Table AcceptedMatches
+Drop Table GoodGuys
+

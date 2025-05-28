@@ -1,0 +1,34 @@
+The jsf and jsp is built on top of the java Servlet API
+
+Servlets are Java classes that handle HTTP requests and generate responses.
+While JSP abstracts the complexity of servlets by allowing HTML to be mixed with Java code.
+JSF abstracts it further by introducing a component-based model.
+
+Facelets is a view declaration language for JSF that simplifies the creation of JSF pages. It replaces JSP as the preferred view technology in JSF 2.0 and later. Facelets provides a more natural templating mechanism, better support for composition, and improved performance.
+
+Both JSP and JSF are part of the Java Enterprise Edition (Java EE) platform, which provides a comprehensive set of specifications for enterprise-grade applications. Java EE includes other technologies like Enterprise JavaBeans (EJB), Java Persistence API (JPA), and Contexts and Dependency Injection (CDI), which can be used in conjunction with JSP and JSF.
+
+The primeface is popular third-party component library for JSF. PrimeFaces provides a rich set of UI components and features like AJAX support, responsive design, and theming.
+
+JSP provides a straightforward approach for building dynamic web pages, making it suitable for simpler applications or scenarios where fine-grained control over HTML is necessary.
+
+JSF offers a component-based architecture, robust lifecycle management, and rich UI components, making it ideal for complex, enterprise-level applications that require modularity, maintainability, and scalability.
+
+
+
+Managed Bean:
+Managed Bean is a regular Java Bean class registered with JSF. In other words, Managed Beans is a Java bean managed by JSF framework. Managed bean contains the getter and setter methods, business logic, or even a backing bean (a bean contains all the HTML form value).
+Managed beans works as Model for UI component. Managed Bean can be accessed from JSF page.
+@ManagedBean marks a bean to be a managed bean with the name specified in name attribute. If the name attribute is not specified, then the managed bean name will default to class name portion of the fully qualified class name. In our case, it would be helloWorld.
+
+// Importent.
+Eager. If eager = "true" then managed bean is created before it is requested for the first time otherwise "lazy" initialization is used in which bean will be created only when it is requested.
+
+
+Scopes:
+    1- @RequestScoped: Bean lives as long as the HTTP request-response lives. It gets created upon a HTTP request and gets destroyed when the HTTP response associated with the HTTP request is finished.
+    2- @NoneScoped: Bean lives as long as a single EL evaluation. It gets created upon an EL evaluation and gets destroyed immediately after the EL evaluation.
+    3- @ViewScoped: Bean lives as long as the user is interacting with the same JSF view in the browser window/tab. It gets created upon a HTTP request and gets destroyed once the user postbacks to a different view.
+    4- @SessionScoped: Bean lives as long as the HTTP session lives. It gets created upon the first HTTP request involving this bean in the session and gets destroyed when the HTTP session is invalidated.
+    5- @ApplicationScoped: Bean lives as long as the web application lives. It gets created upon the first HTTP request involving this bean in the application (or when the web application starts up and the eager=true attribute is set in @ManagedBean) and gets destroyed when the web application shuts down.
+    6- @CustomScoped: Bean lives as long as the bean's entry in the custom Map, which is created for this scope lives.

@@ -1,0 +1,311 @@
+Database Evolution:
+
+File:
+
+Database Management System (1960): Deals with files, these files in one place, (Single user will deal with this system), (System Manges files,
+Unified interface, Single user, data redundancy, Low Software, Hardware requirement), simple device may be make these operations,
+for example on it (SystemR, IBM System/38).
+
+Relational Database Management System (1980): Here nested of save the data in the files, here will memorise the data in the tables, there are
+many of users can deal this system, and there is no redundancy because in the table have key concept (each row have ID),
+(Client-Server Architecture), but here we should high Software, high requirement, for examples: (Oracle, SQL Server, MySQL, POSTGRESQL)
+
+Multi-Dimensional (1990): Here will memorise the data as a three-D, no Two-D like the RDMS, here we memorise the data, but when I retrieve it,
+I will retrieve it in a simple way, (memorise the info in more than one dimension). But the Multi-Dimensional will have
+Longer to setup, but it also have a better performance, have a high complexity, for example
+(IBM CONGOS, Oracle OLAP, MS SQL analysis service)
+
+No SQL (1998): The memorise the data, and retrieve it no working with the Tables, here we have a documents, the goal of this approach is
+memorise a Big data and real time retrieve them, the problem in the DBMS is the relations here we have a horizontal scaling,
+document key/ value, it's more flexible, favor availability over consistency, for example on it (MongoDB, CASSANDRA, REDIS, COSMOSDB).
+
+GraphQL (2000): Type of SQL, I will memories the not just the data,
+I will memories the relationships between the data (The memories the relations it's the first class citizens),
+each graph will have (Edge, and Node (The data will memories in the nodes,
+and the relations will memories in the Edges)), The graphql it's prevent the slow in the DBMS,
+the problem of the graph (They will save just in one device) Examples on it (NEO4J, ARANGODB, ORIENTDB, DGRAPH, AMAZON NEPTUNE).
+
+New SQL (2010): It's a type of RDBMS, it's a get the power of the NOSQL, and gets the four grantees
+the ACID (Atomicity, Consistency, Isolation, Durability), Scalability NOSQL OLAP, high profile data, Transactional, Constant data, and
+Partial tooling RDBMS, for example (CLUSTRIX, NUODB, VOLTDB, ACTORDB, GOOGLE SPANNER).
+
+We have two types of programming languages:
+    1- Imperative: You should say how to retrieve the output.
+    2- Declarative: You will say what you want, and he will get the decision how to retrieve the output (The sql type is declarative).
+
+SQL is split in four categories:
+    1- DDL (Data definition language): Create, Alter, Drop, Rename, Truncate, and comment.
+    2- DML (Data Manipulation language): Select, Insert, Delete, Update, Merge, Call, Explain Plan, and Lock Table.
+    3- TCL (Transaction Control language): Commit, Rollback, Savepoint, and Set Transaction.
+    4- DCL (Data control language): Grant, And Revoke.
+
+
+
+
+Use master
+Go
+
+-- _____________________________________________ Creates Statement _____________________________________________
+
+Create database PMDB
+GO
+
+Use PMDB
+GO
+
+Create Schema PM
+GO
+
+CREATE TABLE [PM].[Companies](
+	[CRNNO] [int] NOT NULL,
+	[CompanyName] [varchar](50) NOT NULL,
+    PRIMARY KEY ([CRNNO]))
+GO
+
+CREATE TABLE [PM].[Managers](
+	[Id] [int] NOT NULL,
+	[Email] [varchar](100) NOT NULL,
+	PRIMARY KEY ([Id]))
+GO
+
+CREATE TABLE [PM].[Projects](
+	[PRJNO] [int] NOT NULL,
+	[Title] [varchar](100) NOT NULL,
+	[ManagerId] [int] NOT NULL,
+	[StartDate] [datetime2](7) NOT NULL,
+	[InitialCost] [decimal](18, 2) NOT NULL,
+	[Parked] [bit] NOT NULL,
+	[CRNNO] [int] NOT NULL,
+	FOREIGN KEY([CRNNO]) REFERENCES [PM].[Companies] ([CRNNO]),
+	FOREIGN KEY([ManagerId])REFERENCES [PM].[Managers] ([Id]),
+	PRIMARY KEY ([PRJNO]));
+GO
+
+CREATE TABLE [PM].[Technologies](
+	[Id] [int] NOT NULL,
+	[Name] [varchar](100) NOT NULL,
+    PRIMARY KEY ([Id]))
+GO
+
+CREATE TABLE [PM].[ProjectTechnologies](
+	[PRJNO] [int] NOT NULL,
+	[TechnologyId] [int] NOT NULL,
+	FOREIGN KEY([PRJNO])REFERENCES [PM].[Projects] ([PRJNO]),
+	FOREIGN KEY([TechnologyId]) REFERENCES [PM].[Technologies] ([Id]),
+    PRIMARY KEY ([PRJNO], [TechnologyId]))
+GO
+
+-- _____________________________________________ Insert Statement _____________________________________________
+
+INSERT INTO PM.Companies (CRNNO, CompanyName) VALUES (101, N'Company A');
+
+INSERT INTO PM.Companies (CompanyName, CRNNO) VALUES (N'Company B', 102);
+
+INSERT INTO PM.Companies  VALUES (103, N'Company C');
+
+INSERT INTO PM.Companies  VALUES
+           (104, N'Company D'),
+           (105, N'Company E'),
+           (106, N'Company F'),
+           (107, N'Company G');
+GO
+
+INSERT INTO PM.Managers (Id ,Email) VALUES (201, 'peter@fake.com');
+INSERT INTO PM.Managers (Id ,Email) VALUES (202, 'mike@fake.com');
+INSERT INTO PM.Managers (Id ,Email) VALUES (203, 'reem@fake.com');
+INSERT INTO PM.Managers (Id ,Email) VALUES (204, 'salah@fake.com');
+
+GO
+
+INSERT INTO PM.Technologies(Id , Name) VALUES (301, 'SQL SERVER');
+INSERT INTO PM.Technologies(Id , Name) VALUES (302, 'ASP NET CORE');
+INSERT INTO PM.Technologies(Id , Name) VALUES (303, 'ANGULAR');
+INSERT INTO PM.Technologies(Id , Name) VALUES (304, 'REACT');
+INSERT INTO PM.Technologies(Id , Name) VALUES (305, 'WPF');
+INSERT INTO PM.Technologies(Id , Name) VALUES (306, 'ANDROID');
+INSERT INTO PM.Technologies(Id , Name) VALUES (307, 'ORACLE');
+INSERT INTO PM.Technologies(Id , Name) VALUES (308, 'PHP');
+
+GO
+
+INSERT INTO PM.Projects ( PRJNO, Title, ManagerId, StartDate, InitialCost, Parked, CRNNO)
+     VALUES ( 401, 'CMS', 201, '2022-01-01', 15000000, 0, 101),
+            ( 402, 'ERP', 202, '2022-02-01', 20000000, 0, 102),
+            ( 403, 'CMS', 203, '2022-03-01', 15000000, 0, 105),
+            ( 404, 'Authenticator', 204, '2022-04-01', 150000, 0, 101),
+            ( 405, 'CRM-DESKTOP', 203, '2022-05-01', 20000000, 0, 104),
+            ( 406, 'ERP', 204, '2022-06-01', 20000000, 0, 105),
+            ( 407, 'HUB', 204, '2022-06-01', 20000000, 1, 104);
+
+GO
+
+INSERT INTO PM.ProjectTechnologies (PRJNO, TechnologyId) VALUES
+        ( 401, 301),
+        ( 401, 302),
+		( 401, 303),
+		( 402, 301),
+        ( 402, 302),
+		( 402, 304),
+		( 403, 301),
+        ( 403, 302),
+		( 403, 308),
+		( 404, 306),
+		( 405, 307),
+		( 405, 305),
+		( 406, 307),
+		( 406, 308);
+GO
+
+-- _____________________________________________ Select Statement _____________________________________________
+
+Select PRJNO, Title, ManagerId, StartDate, InitialCost, Parked, CRNNO
+From PM.Projects
+
+Select *
+From PM.Projects
+
+-- ________________________ Where ________________________
+
+Select * From PM.Projects Where InitialCost >= 1000000
+Select * From PM.Projects Where Not InitialCost >= 1000000
+
+Select * From PM.Projects Where InitialCost >= 1000000 And Not InitialCost <= 1000000
+Select * From PM.Projects Where InitialCost >= 1000000 OR Not InitialCost >= 1000000
+
+-- ________________________ Like ________________________
+-- LIKE xx% Start with:
+Select * From PM.Projects where Title LIKE'M%';
+-- LIKE %xx End with:
+Select * From PM.Projects where Title LIKE'%P';
+-- LIKE %xx% Contains:
+Select * From PM.Projects where Title LIKE'%Desk%';
+-- LIKE _R%, the second char I should know it:
+Select * From PM.Projects where Title LIKE'_R%';
+-- LIKE _R%, the second char I should know it, and the word should contains the three char:
+Select * From PM.Projects where Title LIKE'_M_';
+
+-- ________________________ Top N/ Percent ________________________
+
+Select TOP 3 * From Pm.Projects
+Select Top 50 Percent * From Pm.Projects
+
+-- ________________________ Order By ________________________
+Select * From Pm.Projects order by StartDate ASC
+Select * From Pm.Projects order by InitialCost DESC
+Select * From Pm.Projects order by InitialCost, StartDate DESC
+
+-- ________________________ Group By ________________________
+Select Title, count(*) From Pm.Projects Group By Title
+Select Title, count(*) From Pm.Projects Group By Title
+Select ManagerId, count(*) From Pm.Projects Group By ManagerId
+
+-- ________________________ Where Vs Having ________________________
+Select ManagerId, count(*) From Pm.Projects where parked = 0 Group By ManagerId
+-- Here I used where because I am a filtring based on the column already exist in the table,
+-- but if I want to filter based on the count(*) and here it's not a column exist in the table,
+-- so now I will usign havign. The where will implements in the column, but the having will implements on the aggregate function
+Select ManagerId, count(*) From Pm.Projects Group By ManagerId Having count(*) = 1
+
+-- ________________________ Distinct ________________________
+Select Distinct Title From PM.Projects
+Select Distinct InitialCost From Pm.Projects
+
+
+-- ________________________ Table Join And Alias (AS) ________________________
+
+SELECT * FROM PM.Projects;
+SELECT * FROM PM.Managers;
+
+-- PRJNO,  TITLE, Manager_Email
+SELECT * FROM PM.Projects, PM.Managers;
+SELECT PRJNO, Title, Email FROM PM.Projects, PM.Managers; -- Cartisian Product
+SELECT PRJNO, Title, Email, PM.Managers.Id, PM.Projects.ManagerId FROM PM.Projects, PM.Managers
+WHERE PM.Projects.ManagerId = PM.Managers.Id;
+
+-- INNER JOIN Match in two tables
+
+SELECT
+  (P.PRJNO) AS N'رقم المشروع'
+, (P.Title) AS N'عنوان المشروع'
+, (M.Email) AS N'البريد الالكتروني لمدير المشروع' FROM
+PM.Projects AS P INNER JOIN PM.Managers AS M
+ON P.ManagerId = M.Id;
+
+-- LEFT JOIN ( ALL ROWS FROM LEFT TABLE EVEN NO MATCH
+
+SELECT * FROM PM.COMPANIES;
+SELECT * FROM PM.Projects;
+
+SELECT
+  (P.PRJNO)
+, (P.Title)
+, (C.CompanyName) FROM
+PM.Projects AS P LEFT JOIN PM.Companies AS C
+ON P.CRNNO = C.CRNNO;
+
+SELECT
+  (P.PRJNO)
+, (P.Title)
+, (C.CRNNO)
+, (C.CompanyName) FROM
+ PM.Companies AS C LEFT JOIN  PM.Projects AS P
+ON P.CRNNO = C.CRNNO;
+
+-- LEFT JOIN ( ALL ROWS FROM RIGHT TABLE EVEN NO MATCH
+SELECT
+  (P.PRJNO)
+, (P.Title)
+, (C.CompanyName) FROM
+PM.Projects AS P RIGHT JOIN PM.Companies AS C
+ON P.CRNNO = C.CRNNO;
+
+-- LEFT JOIN ( ALL ROWS FROM RIGHT TABLE EVEN NO MATCH
+SELECT
+  (P.PRJNO)
+, (P.Title)
+, (C.CompanyName) FROM
+PM.Projects AS P FULL JOIN PM.Companies AS C
+ON P.CRNNO = C.CRNNO;
+
+-- _____________________________________________ Update Statement _____________________________________________
+Update PM.Projects
+Set StartDate='2022-07-10'
+where PRJNO = 405
+Select * From Pm.Projects where PRJNO = 405
+
+-- _____________________________________________ Delete Statement _____________________________________________
+Delete Pm.Projects
+where Parked=1
+Select * From Pm.Projects
+
+Delete Pm.Projects
+where PRJNO=406
+
+Select * From Pm.ProjectTechnologies
+Delete PM.ProjectTechnologies where PRJNO = 406
+
+-- _____________________________________________ Drop Vs Truncate _____________________________________________
+-- Drop will delete the table, data, and schema, but the truncate will delete the date but the table still will exist
+Drop Table PM.Projects;
+Truncate Table PM
+
+
+-- _____________________________________________ Sub Query Nested _____________________________________________
+-- I want to update all that used Oracel, and the price will enhancement in %5
+Select * From PM.Projects
+Select * From Pm.ProjectTechnologies
+Select * From PM.Technologies
+
+-- After the PRJNO I have two solution: 1- =, 2- IN, so what the difference between them:
+-- I use = when I am sure that the return is one element, but if more that one element I will use IN.
+Update Pm.Projects SET InitialCost = InitialCost * 1.05
+where PRJNO IN ( Select PRJNO From PM.ProjectTechnologies
+Where TechnologyId = (Select id From Pm.Technologies where Name='Oracle'))
+
+-- _____________________________________________ Database trigger _____________________________________________
+
+A database trigger is procedural code that is automatically executed in response to certain events on a particular
+table or view in a database. The trigger is mostly used for maintaining the integrity of the information on the database.
+For example, when a new record (representing a new worker) is added to the employees table,
+new records should also be created in the tables of the taxes, vacations and salaries.
+Triggers can also be used to log historical data, for example to keep track of employees' previous salaries.

@@ -1,0 +1,205 @@
+Inheritance, Association, Aggregation "has-a", Composition "part-of"
+    1- Inheritance:
+        Inheritance is a mechanism that allows a class to inherit properties and behaviors from another class,
+        And the constructor of the superclass can be invoked from the subclass.
+        There are five types of Inheritance:
+            1- Single Inheritance, class B that inherit Class A just.
+            2- Multilevel Inheritance, Class C that inherit Class B, and Class B that inherit Class A,
+                that mean the class C that inherit the att and methods from class A and B.
+            3- Hierarchical Inheritance, Class C and Class B that inherit from Class A.
+            4- Multiple Inheritance, but Java is not support multiple Inheritance, but you can use the Interface concept.
+            5- Hybrid Inheritance, Also Java is not support multiple Inheritance (Class D that inherit Class B and C, and Class B and C that inherit Class A).
+        Note: Is the java support multiple Inheritance (Class C that inherit from Class A and B)? Java is not support multiple Inheritance, why?
+            If we want to implement multiple inheritance in Java, we can use the interface concept,
+            which also solves the ambiguity problem. it can lead to complex issues, such as problems with casting, constructor chaining,
+            and other operations. Moreover, multiple inheritance is rarely needed, so Java excludes it to maintain simplicity and clarity in code.
+
+                (Is a)
+        Class A extends of Class B.
+
+    2- Association "has-a":
+        Connector
+        Association is a connection or relation between two separate classes that are setup through their objects.
+        And the Association represent a general unary or binary relationship that describe an activity between two classes.
+        Unary: For example: relation in one side Person know about Address, address know nothing about person.
+        Binary: For example: relation in two side, Class C knows about Class D, Class D knows about Class C, and in the binary have Multiplicity.
+
+        Unary have three relationships, (whole-part Association):
+            a- Association most general, same as above.
+
+            b- Aggregation "has-a" (Week relationship): One way Association, and if the Class A has a Class B,
+            that mean if the class A deleted the other class is not effect, and the opposite is true.
+
+            c- Composition "part-of" (Strong relationship): Two way Association,
+            and if the Class A part of Class B, that mean if the class A deleted the other class will effect, and the opposite is true.
+                        Whole           Part of
+
+___________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+
+Streams:
+    You have a:
+        1- Filter:
+        2- Sorted:
+        3- Map:
+        4- Collect:
+        5- Reduce:
+
+
+    collect() and reduce() methods are called as the terminal methods because here, the operation gets terminated with some outcome.
+    Functions associated with Collectors usually get used inside collect() methods. Collectors class is part of Stream package
+
+    Streams is representation of the collection that facilitate the processing,
+    it's doesn't store the data, you specify what is required, not how to achieve it.
+
+    Like if you have an array we switch it to the stream, then they process to some of the steps like filters,
+    or some of steps of processing, then they end will give a result or values of some of values.
+
+    The stream is a some collection of data, this data represent the stream source, and this collection we switch it to stream,
+    then we apply this stream on the intermediate operation, then we apply on terminal operation, then wn end with the terminal operation.
+
+    Operations on Stream:
+        1- Intermediate Operation.
+        2- Terminal Operation.
+
+    Stream is:
+        1- light weight object.
+        2- Cannot be reused once a processed.
+        3- Specify what not how.
+        4- Doesn't the store data.
+
+___________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+
+    Serialization allows you to store objects in a persistent manner.
+    You can save the state of an object to a file and reload it later, ensuring that the object's data is preserved across program runs
+
+    Serialization in Java allows us to convert an Object to stream that we can send over the network or save it as file or store in DB for later usage.
+    Deserialization is the process of converting Object stream to actual Java Object to be used in our program.
+
+    A kit in software development generally refers to a set of tools, libraries, and utilities bundled together to help developers build applications.
+
+    In the case of the Java Development Kit (JDK), it is a collection of tools needed for Java development. It includes:
+    1- Java Compiler (javac) – Translates Java code into bytecode that the JVM can execute.
+    2- Java Virtual Machine (JVM) – Runs Java applications by interpreting bytecode.
+    3- Java Runtime Environment (JRE) – Provides libraries and components required to run Java programs.
+    4- Development Tools – Debuggers, profilers, monitoring tools, etc.
+
+    So, when you see "kit" in JDK, it means a complete package of tools necessary for Java development.
+
+___________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+
+    Functional Interface & Method reference:
+        It's interface has single abstract method (SAM) not private and static, I need the method reference I can call for any method and I can pass to any parameter in single step without write the parameter, the compiler will make it
+        For example:
+            stringList.forEach(String::toLowerCase)
+        ForEach, in each loop have a String (String is a parameter will send to the method reference, the method here is a toLowerCase)
+
+        Method reference types and Syntax:
+            1- Instance::Remember method.
+                We call method by his class using the object.
+                I have a parameter then pass it to the method.
+            2- Class::static method.
+                We use the name of the class not object, we call the static method of the class.
+            3- Class::member method.
+                We call the method that inside in the class.
+            4- Class::new.
+                We called it constructor reference, is not method constructor same as above types, but at the end at it one of the types and use the class name and the new operator.
+                Here make a construct from new object to use it as a lambda expression.
+                It used to invoke the class constructor (Create new instance)
+
+
+    Functional Interface Categories
+    There are 43 functional interfaces provided in java.util.function, and they all fall into one of four broader categories: suppliers, consumers, predicates, or functions.
+    The basic types of functional interfaces are Supplier, Consumer, Predicate, and Function.
+
+    _____________________________________________
+
+    Suppliers
+    java.util.function.Supplier’s functional method, get(), never takes any argument and always returns something.
+    Definition of java.util.function.Supplier -
+
+    package java.util.function;
+    @FunctionalInterface
+    public interface Supplier<T> {
+        T get();
+    }
+
+    Use of Supplier -
+
+    Supplier<Integer> supplier = () -> 100;
+    System.out.println(supplier.get());
+
+    There are some variations on Supplier available in java.util.function like IntSupplier, DoubleSupplier, and LongSupplier. These simply supplies an int , a double and a long respectively. These are there primarily used to avoid autoboxing in case you want a primitive, rather than an object, back from the supplier.
+
+    _____________________________________________
+
+    Consumers
+    java.util.function.Consumer’s functional method, accept(), always takes an argument and never returns anything.
+
+    Definition of java.util.function.Consumer -
+
+    package java.util.function;
+    @FunctionalInterface
+    public interface Consumer<T> {
+        void accept(T t);
+    }
+
+    Use of Consumer —
+
+    Consumer<Integer> consumer = a -> System.out.println(a);
+    consumer.accept(3);
+
+    We also have have java.util.function.BiConsumer that takes two arguments.
+
+    package java.util.function;
+    @FunctionalInterface
+    public interface BiConsumer<T,U> {
+        void accept(T t, U u);
+    }
+
+    ForEach — ForEach is introduced in Java 8. It can be used to iterate through collections. It is a good use case for Consumer as ForEach expects a Consumer.
+    List<String> list = Arrays.asList("One", "Two", "Three");
+    Consumer<String> consumer = a -> System.out.println(a);
+    list.forEach(consumer);
+
+    _____________________________________________
+
+    Predicates
+    java.util.function.Predicate’s functional method, test(), takes a value, does a logical test, and returns true or false.
+
+    package java.util.function;
+    @FunctionalInterface
+    public interface Predicate<T> {
+        boolean test(T t);
+    }
+    BiPredicate is another variation of Predicate which takes two arguments instead of one and return boolean.
+
+    _____________________________________________
+
+    Functions
+    java.util.function.Function’s functional method, apply(), takes an argument and returns a value.
+
+    package java.util.function;
+    @FunctionalInterface
+    public interface Function<T, R> {
+        R apply(T t);
+    }
+
+    BiFunction is a variation of Function which takes two arguments
+
+    package java.util.function;
+    @FunctionalInterface
+    public interface BiFunction<T, U, R> {
+        R apply(T t, U u);
+    }
+
+
+
+
+
+
+
+
+
+
+
+

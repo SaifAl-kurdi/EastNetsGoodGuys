@@ -1,0 +1,17 @@
+-- Authentication
+
+CREATE TABLE userInfo (
+    id INT PRIMARY KEY IDENTITY,
+    username VARCHAR(255) NOT NULL,
+    password VARCHAR(255) NOT NULL
+);
+
+Select * From userInfo
+
+
+Drop table userInfo
+INSERT INTO userInfo (username, password)
+VALUES
+('john_doe', '123'),
+('jane_smith', '123'),
+('admin_user', '123');

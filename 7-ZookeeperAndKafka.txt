@@ -1,0 +1,39 @@
+How make a zookeeper:
+    1- Install it.
+    2- Chaned dirctory.
+    3- Work with the code.
+    4- Use the ZkServer in CLI.
+    5- Make node for eash service. (In the bin dir).
+        a- Make this command in the CLI in bin exactly (zkCli.cmd).
+        b- create /services/import-service "http://localhost:8936".
+        c- get /services/import-service.
+
+If you are not install zookeeper individual like with kafka:
+    1- You should change the dir of the log in the "C:\kafka\config\zookeeper.properties"
+    2- Make this command: bin\windows\zookeeper-server-start.bat config\zookeeper.properties, but you should be in the kafka dir
+    3- In this way the zookeeper is running.
+    4- Make node for eash service. (In the bin dir).
+        a- Make this command in the CLI in bin exactly (zkCli.cmd).
+        b- create /services/import-service "http://localhost:8936".
+        c- get /services/import-service.
+
+
+
+And for run the kafka: (in kafka dir)
+    1- bin\windows\kafka-server-start.bat config\server.properties
+
+
+To create a topic in kafka: (in kafka dir)
+    1- bin\windows\kafka-topics.bat --create --topic myFirstTopic --bootstrap-server localhost:9092
+
+To put message in topic:
+    1-  Producer: bin\windows\kafka-console-producer.bat --topic notification-topic --bootstrap-server localhost:9092
+    2-  Consumer: bin\windows\kafka-console-consumer.bat --topic notification-topic --from-beginning -bootstrap-server localhost:9092
+
+    in this way, the producer can talk with consumer.
+
+
+The front-end will be in-coming, and the other microservices will out-coming.
+
+To see all the kafka topics that you have:
+    C:\Kafka\bin\windows>kafka-topics.bat --bootstrap-server localhost:9092 --list

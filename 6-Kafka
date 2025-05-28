@@ -1,0 +1,22 @@
+Kafka is a distributed event streaming platform designed to handle high-velocity, high-volume streaming data.
+It's a good choice for real-time data pipelines and stream processing.
+
+    Order Service ------------------> Kafka -----> Billing Service
+
+
+    The order service wants to send the message to the billing service, so in rest services, it should chick if the two microservices is up,
+    here there are different in situation because there is no need the consumer to be up, when the procedure send the message on the kafka,
+    when the consumer want's up the kafka will send the message to the consumer.
+
+Kafka Topic:
+    - Is a way to organized the message that you have, you have a huge number of microservices want's to talk to together,
+    so not all the services will use the same type of messages (Not all the microservice want's to read and write the same messages)
+    - Can you imagine the Topic as a Pipe can you write an events, each Topic is not depended on each other, and all events are ordered, based
+    on the his producer.
+    - The consumer should make a (Subscribe) to a Topic, listening to it's events (The consumer will subscribe on some of events to get them).
+
+
+Kafka chunks:
+    The chunks can be stored in Kafka in the same way as ordinary (not-chunked) messages.
+    The only difference is that the consumer would need to keep the chunks and combine them into the real message when all chunks have been collected.
+    The chunks in the Kafka log can be interwoven with ordinary messages.

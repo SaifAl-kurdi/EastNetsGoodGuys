@@ -1,0 +1,207 @@
+Type of @Transactional:
+	1- TxType.REQUIRED
+		This is the default behavior if no specific TxType is specified. If a transaction is already in progress,
+		the method joins the existing transaction. If no transaction exists,
+		a new transaction is started before the method is invoked and committed after the method completes.
+
+	2- TxType.REQUIRES_NEW
+		A new transaction is always started for the method,
+		regardless of an existing transaction.
+		If there is an existing transaction,
+		it is suspended until the new transaction completes.
+		After completion, the previously suspended transaction is resumed.
+
+	3- TxType.MANDATORY
+		The method must be called within an active transaction context.
+		If no transaction is in progress, an exception (e.g., TransactionalException) is thrown.
+
+	4- TxType.SUPPORTS
+		If there is an existing transaction, the method joins it.
+		If there is no transaction, the method executes without a transaction.
+		Essentially, it is “transaction-agnostic”: it neither starts a new transaction nor throws an error if none exists.
+
+	5- TxType.NOT_SUPPORTED
+		The method does not support transactions. If a transaction is in progress,
+		it is suspended before the method is invoked and resumed after the method completes.
+		Any operations within this method are executed in a non-transactional context.
+
+	6- TxType.NEVER
+		The method must not be invoked within a transaction. If a transaction is in progress, an exception will be thrown.
+
+
+Rollback Rules
+	The annotation also allows you to customize which exceptions cause a rollback. By default, runtime exceptions (unchecked exceptions) and errors cause the container to roll back the transaction; checked exceptions do not. However, you can override these defaults with the following elements:
+	- rollbackOn(): An array of exception classes that should cause a rollback.
+		For instance, rollbackOn = {MyCheckedException.class} means the transaction will roll back when a MyCheckedException is thrown, even though it is a checked exception.
+
+	- dontRollbackOn(): An array of exception classes that should not cause a rollback.
+		For example, dontRollbackOn = {IllegalArgumentException.class} means even though IllegalArgumentException is a runtime exception, it will not trigger a rollback.
+
+	These two elements are annotated with @Nonbinding, which indicates that they are not used in interceptor matching; rather, they are used in the logic for determining which exceptions cause rollbacks.
+
+@Transactional(
+    value = TxType.REQUIRED,
+    rollbackOn = {MyCheckedException.class},
+    dontRollbackOn = {IllegalArgumentException.class}
+)
+public void doWork() {
+    // Business logic here...
+    // If MyCheckedException is thrown, the transaction will roll back.
+    // If IllegalArgumentException is thrown, the transaction will not roll back.
+}
+
+
+
+
+Usage Patterns
+	1- Class-Level Annotation
+		When you annotate a class with @Transactional, all of its business methods (non-static, non-private methods) inherit the transactional behavior unless otherwise specified:
+
+@Transactional
+public class MyService {
+
+    public void createEntity() {
+        // This method is executed in a REQUIRED transaction by default
+    }
+
+    @Transactional(TxType.REQUIRES_NEW)
+    public void isolatedOperation() {
+        // This method will always run in a separate transaction
+    }
+}
+
+
+	2- Method-Level Annotation
+		When you annotate an individual method, that method’s behavior overrides the class-level annotation. For instance:
+
+@Transactional // default TxType.REQUIRED
+public class MyService {
+
+    // This method uses REQUIRED
+    public void createEntity() { ... }
+
+    // Override to NEVER, so no transaction is allowed
+    @Transactional(TxType.NEVER)
+    public void retrieveInformation() { ... }
+}
+
+
+
+
+
+
+
+
+
+1. What Does @Transactional Do, in Simple Terms?
+One “All-or-Nothing” Action
+When you mark a method or class with @Transactional, you tell the system, “Treat everything that happens inside here as a single unit of work. Either every operation in this method successfully completes together, or if something goes wrong, discard everything and roll back to how it was before.”
+
+Saves You from Partial Updates
+Without transactions, you can end up with partial updates in your database if something fails halfway. For example, you might have deducted money from a customer’s account but never actually shipped the product because the shipping step failed. Transactions ensure that if any step in the process fails, everything is reverted, keeping your data consistent.
+
+Easy Declarative Approach
+You don’t have to manually write code to start, commit, or roll back a transaction. By using @Transactional, the framework or container (like Spring or Jakarta EE) automatically does that for you around your method.
+
+
+2. Real-Life Example (Non-Coding)
+Scenario:
+Imagine you run an online bookstore. A customer wants to buy a book. Several things happen in this process:
+	- Decrease Book Stock – You reduce the number of that book in your inventory.
+	- Charge Payment – You send a payment request to the payment gateway, deducting money from the customer’s credit card.
+	- Generate Invoice – You create an invoice record.
+What Could Go Wrong?
+	- The book might have gone out of stock right after you deducted the inventory, but before you charged the customer.
+	- The payment might fail after you have already reduced your stock count in the database.
+	- Generating the invoice might fail due to a system error, leaving you with inconsistent data (money charged, but no invoice on record).
+How @Transactional Helps
+	- By marking this entire checkout process with @Transactional, all three steps (reduce stock, charge payment, generate invoice) either succeed as a whole or fail as a whole.
+	- If any step throws an exception (for example, payment fails), the transaction is rolled back:
+		- The stock level reverts to what it was before the transaction started.
+		- No charge is made to the customer’s card.
+		- No invoice is created.
+	- If everything goes smoothly, the transaction commits, meaning:
+		- The stock is successfully updated.
+		- The payment is deducted from the customer’s credit card.
+		- The invoice is recorded in the system.
+
+
+
+What is TxType?
+	TxType is an enum that specifies how a method should behave in the presence (or absence) of a transaction. In other words, it defines when a new transaction should be started, if the method should join an existing transaction, or if the method should never run with a transaction.
+
+Real-Life Example (Non-Coding)
+Scenario: “Pizza Delivery Service”
+	Imagine you have an application that handles the life cycle of a pizza order—from creation to delivery. Let’s examine different methods and how each TxType might help:
+
+	1- placeOrder() – TxType.REQUIRED
+		- Default transaction type.
+		- If a customer’s session already has a running transaction (maybe started by the checkout process), this method joins that transaction.
+		- Otherwise, it starts a new one. This ensures changes like “add pizza order to the database” and “decrease ingredient stock” happen in one unified transaction.
+
+	2- createNewPizza() – TxType.REQUIRES_NEW
+		- You want each pizza creation to be in its own transaction. Why? Maybe because you’re creating pizzas in batches, and you don’t want the failure of one pizza creation to affect others.
+		- This method always runs in a new transaction, pausing any existing transaction.
+
+	3- validateOrder() – TxType.MANDATORY
+		- Let’s say you have a separate validation service that must be called only when a transaction is already in progress. If no transaction is present, it’s an error because validation requires the same transaction context as the order.
+
+	4- checkOrderStatus() – TxType.SUPPORTS
+		- This might be a simple read-only method. If a transaction is running, great—just join it. If not, that’s okay, it runs outside of a transaction. No big deal.
+
+	5- printRecipe() – TxType.NOT_SUPPORTED
+		- Printing a recipe or preparing a PDF might not need a transaction at all (it might just be reading data, formatting it, or calling an external service).
+		- If the user is in the middle of a transaction, you don’t want to keep the database locked for this operation, so you suspend any active transaction while printing.
+
+	6- shutdownKitchen() – TxType.NEVER
+		Suppose you have an admin function that physically shuts down the kitchen equipment, which shouldn’t happen inside a transaction. If someone tries to call shutdownKitchen() while a transaction is running, that should raise an error.
+
+
+
+1. @Transactional(REQUIRED) (Default)
+	- If a transaction already exists: The method joins this existing transaction.
+	- If no transaction exists: It starts a new transaction.
+	- In other words: If we already have a transaction, we keep using it. If not, we create one. This is a common, default choice that usually covers most typical use cases (like standard CRUD operations).
+
+2. @Transactional(REQUIRES_NEW)
+	- If a transaction already exists: That transaction is suspended (temporarily paused), and a new transaction starts for this method. Once the method finishes, the old transaction resumes.
+	- If no transaction exists: A new transaction is created for this method.
+	- In other words: Regardless of any ongoing transaction, we always have a fresh, separate transaction for this method. This is useful if you want to isolate a piece of work so that its success or failure does not affect (or get affected by) other ongoing transactions.
+
+3. @Transactional(MANDATORY)
+	- If a transaction already exists: The method joins that transaction.
+	- If no transaction exists: An exception is thrown.
+	- In other words: We require an active transaction to be present. If someone calls this method without having started a transaction, it’s an error. This is often used when the method must be part of a larger process that already has a transaction in place.
+
+4. @Transactional(SUPPORTS)
+	- If a transaction already exists: The method joins that transaction.
+	- If no transaction exists: The method runs without a transaction.
+	- In other words: This is a “passive” approach. The method will use a transaction only if one exists. Otherwise, it just proceeds without a transaction. It’s typically used for methods where a transaction might be helpful (especially if some writes occur) but is not strictly required (for example, reading data that does not necessarily require strict transactional consistency).
+
+5. @Transactional(NOT_SUPPORTED)
+	- If a transaction already exists: That transaction is suspended (temporarily paused), and the method runs without a transaction. Once this method completes, the original transaction resumes.
+	- If no transaction exists: The method just runs without a transaction.
+	- In other words: We are saying, “This method does not want to be part of a transaction.” This might be used for operations that are purely doing read-only or non-critical tasks (like generating reports or calling external services) and thus should not keep the database locked or be affected by rollbacks.
+
+6. @Transactional(NEVER)
+	- If a transaction already exists: The system throws an exception immediately.
+	- If no transaction exists: The method runs without a transaction.
+	- In other words: We never want this method to be called inside a transaction. This might be used for very special scenarios, for example, administrative tasks or system-level operations that should never be combined with other transactional work.
+
+
+
+Putting It All Together
+	- Imagine you have a banking application:
+	- A transfer operation might use REQUIRED because if you start the transfer, you need a transaction. If there’s already a transaction going (maybe transferring multiple sums), it just joins it.
+	- A logging operation might need REQUIRES_NEW, because you don’t want a logging failure to roll back the main transaction and vice versa—you want the logging to be recorded no matter what, in its own transaction.
+	- An internal validation method could use MANDATORY, ensuring it only runs if the surrounding code is already in a transaction (because partial validations without a full transaction would be meaningless).
+	- A status-check method might use SUPPORTS, because it can show status within a transaction if one is ongoing (for consistency), or just show a snapshot if no transaction is present.
+	- A report-generation method might use NOT_SUPPORTED because it doesn’t need to be part of a transaction—it just needs to read data and produce a report.
+	- A shutdown method might use NEVER, to ensure it’s never run while critical operations (transactions) are in progress.
+	- By choosing the correct transaction type for each method, you gain control over when transactions start or join, and how they interact with other parts of your system, keeping your data safe and your application efficient.
+
+
+
+
+
+

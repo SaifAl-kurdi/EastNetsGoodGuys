@@ -1,0 +1,157 @@
+How to Persist on the database like 50MB, how to make it (find the solution) (like you can change the )
+FTP work in the ftp service, the FTP will work as (Middleware) between the front-end and the back-end,
+that mean the back-end will chick always in the ftp service if they any file upload, if there are any file will upload in the ftp service,
+the back-end will req for the ftp service to persist to the database,
+but this microservice it's better work also as middleware (it's just make a parse the file then produce it in the topic in the kafka,
+then also there is one addition microservice work and this microservice just make persist to the database).
+
+And there are many of the ftp services already exists (Search about them and fine most suitable one).
+
+(How to use ftp service between the front end back).
+
+Designing an architecture to handle large XML files (e.g., 50MB) using FTP as a middleware between the front-end and back-end,
+with Apache Kafka for asynchronous processing and microservices for parsing and database persistence, involves several key components.
+Below is a proposed architecture and considerations for selecting suitable FTP services.
+
+Proposed Architecture
+
+1. FTP Service (Middleware):
+   - Function: Acts as an intermediary where the front-end uploads XML files. The back-end monitors this service for new files
+   - Process:
+     - Front-end uploads XML files to the FTP server.
+     - Back-end continuously monitors the FTP server for new uploads.
+
+2. File Monitoring Service:
+   - Function: Detects new files in the FTP server and initiates processing
+   - Process:
+     - Upon detecting a new file, it reads the file and publishes its content to a specific Kafka topic for further processing.
+
+3. Kafka Broker:
+   - Function: Serves as the message broker facilitating communication between microservices 
+   - Process:
+     - Receives messages (file contents) from the File Monitoring Service.
+     - Distributes messages to subscribed microservices for processing.
+
+4. Parsing Microservice:
+   - Function: Consumes messages from Kafka, parses the XML content, and publishes structured data to another Kafka topic
+   - Process:
+     - Consumes XML data from the designated Kafka topic.
+     - Parses the XML to extract relevant information.
+     - Publishes the structured data to a different Kafka topic for persistence.
+
+5. Persistence Microservice:
+   - Function: Consumes structured data from Kafka and persists it to the database
+   - process:
+     - Consumes structured data from the Kafka topic.
+     - Performs necessary transformations or validations.
+     - Inserts the data into the chosen database system.
+
+6. Database:
+   - Function: Stores the parsed and structured data for querying and analysis
+   - Considerations: Selection between SQL and NoSQL databases should be based on the data's nature and querying requirements
+
+    For the system, NoSQL (MongoDB) is the better choice. Here's why:
+        Why NoSQL (MongoDB or DynamoDB)?
+            1. Unstructured & Semi-Structured Data
+                - XML data is hierarchical and semi-structured, which aligns well with NoSQL document-based storage.
+                - NoSQL databases like MongoDB store data as JSON/BSON, making it easier to store and retrieve parsed XML files.
+
+            2. Scalability
+                - NoSQL databases scale horizontally, meaning they can handle large file processing and concurrent reads/writes more efficiently.
+                - MongoDB Atlas or DynamoDB provide cloud-native solutions that can scale automatically.
+
+            3. Faster Reads/Writes for Large Documents
+                - SQL databases struggle with very large objects (BLOBs).
+                - MongoDB GridF Scan efficiently handle large XML files by breaking them into smaller chunks.
+                        - In MongoDB, use GridFS for storing files larger than 16 MB. In some situations,
+                            storing large files may be more efficient in a MongoDB database than on a system-level filesystem.
+                            If your filesystem limits the number of files in a directory, you can use GridFS to store as many files as needed.
+                        - GridFS organizes files in a bucket, a group of MongoDB collections that contain the chunks of files and information describing them.
+                            The bucket contains the following collections: The chunks collection, which stores the binary file chunks.
+                            The files collection, which stores the file metadata.
+
+            4. Flexible Schema
+                - XML files may have different structures, and NoSQL databases can store varying document structures easily.
+                - SQL databases require rigid schemas, making updates and changes harder.
+
+        When to Consider SQL (PostgreSQL, MySQL)?
+            - If the XML data needs to be highly relational and requires complex JOIN operations.
+            - If ACID transactions are critical (e.g., financial applications).
+            - If structured schema enforcement is required.
+
+        Final Decision: NoSQL (MongoDB)
+            - Best choice for scalability, performance, and flexibility.
+            - Handles large, hierarchical XML data well.
+            - Easier to integrate with Kafka and microservices.
+------------------------------------------------------------------------------------------------------------------------------------------------------
+
+FTP Service Selection
+
+When selecting an FTP service to integrate into this architecture, consider the following factors:
+    - Scalability: Ability to handle large files and multiple simultaneous connection.
+    - Security: Support for secure file transfer protocols (e.g., FTPS, SFTP) to ensure data protectio.
+    - Integration Capabilities: Ease of integration with monitoring tools and compatibility with the existing technology stack.
+    - Reliability: Robustness in handling file transfers without data loss or corrupt.
+
+Potential FTP Services:
+    1. FileZilla Server:
+       - Overview: An open-source FTP and FTPS server known for its reliability and ease of us
+       - Pros: Supports large file transfers, secure protocols, and is highly configurable
+       - Cons: Limited to Windows platforms, may require additional setup for monitoring capabilities
+
+    2. ProFTPD:
+       - Overview: A versatile FTP server for Unix-based systems, supporting FTP, FTPS, and SFT
+       - Pros: Highly configurable, supports large files, and integrates well with Unix system
+       - Cons: Configuration complexity can be high; primarily designed for Unix environment
+
+    3. vsftpd (Very Secure FTP Daemon):
+       - Overview: A secure and fast FTP server for Unix-like system.
+       - Pros: Emphasizes security and performance; supports virtual users and IPv
+       - Cons: Limited feature set compared to other servers; configuration can be less intuitiv
+
+    4. Serv-U FTP Server:
+       - Overview: A commercial FTP server solution offering extensive features and suppor
+       - Pros: User-friendly interface, robust security features, and excellent suppor
+       - Cons: License costs; may be overkill for simple use case
+
+That mean to deal with the FTP server:
+    - You should use Java (Apache Commons Net) to Interact With FTP Server.
+    - Log in with the username and password
+    - Upload files
+
+
+Recommendation:
+For a microservices architecture that requires robust integration and monitoring capabilities, ProFTPD or vsftpd are suitable choices, especially in Unix-based environment.
+They offer the necessary scalability and security features and can be integrated with monitoring tools to detect new file upload.
+If a Windows-based solution is preferred, FileZilla Server provides a reliable and configurable option.
+
+
+Integration Considerations
+    - File Monitoring: Implement a monitoring mechanism (e.g., inotify on Linux) to detect new files in the FTP directory and trigger the File Monitoring Service.
+    - Error Handling: Incorporate robust error handling and retry mechanisms in each microservice to ensure fault tolerance.
+    - Security: Ensure secure communication between components, especially when handling sensitive dat
+    - Scalability: Design microservices to be stateless where possible, allowing horizontal scaling to handle increased loa
+
+________________________________________________
+
+BEFORE ANY THING, I SHOULD USING THE APPACHE COMMONS NET LIBRARY.
+The first thing I should create a FTPClient, then I can proceed to upload a file to the server.
+
+________________________________________________
+
+Architectural patterns:
+	1- Event-driven architecture (eda).
+	2- Layered architecture.
+	3- Microservices architecture.
+	4- Service-oriented architecture (soa).
+	5- Client-server architecture.
+	6- Cqrs (command query responsibility segregation).
+	7- Microkernel pattern.
+	8- Peer-to-peer architecture.
+	9- Space-based architecture.
+	10- Hexagonal architecture (ports and adapters).
+	11- Model-view-controller (mvc).
+	12- Pipes and Filters pattern.
+	13- Serverless architecture.
+
+

@@ -1,0 +1,91 @@
+1- Docker PS:
+    Show all the containers that run now.
+
+2- Docker PS -a:
+    Show all the containers that run and not run.
+
+3- Docker image:
+    Show all the images that you have.
+
+To run the container you have two option:
+    1- docker run openjdk
+        PS C:\Users\SAmmar> docker ps -a
+        CONTAINER ID   IMAGE     COMMAND    CREATED          STATUS                      PORTS     NAMES
+        dcbcc89785e7   openjdk   "jshell"   26 seconds ago   Exited (0) 23 seconds ago             suspicious_cartwright
+        There are nothing happen.
+        but if I want to interactive with the docker, I should make the second option of the docker.
+    2- docker run -it openjdk:
+    PS C:\Users\SAmmar> docker run -it openjdk
+    Feb 24, 2025 11:16:26 AM java.util.prefs.FileSystemPreferences$1 run
+    INFO: Created user preferences directory.
+    |  Welcome to JShell -- Version 18.0.2.1
+    |  For an introduction type: /help intro
+
+    jshell> int x = 10;
+    x ==> 10
+
+    jshell>
+
+    PS C:\Users\SAmmar> docker ps -a
+    CONTAINER ID   IMAGE     COMMAND    CREATED         STATUS                      PORTS     NAMES
+    efbe8473098e   openjdk   "jshell"   3 minutes ago   Exited (0) 20 seconds ago             gifted_sammet
+    dcbcc89785e7   openjdk   "jshell"   5 minutes ago   Exited (0) 5 minutes ago              suspicious_cartwright
+
+And if you run the docker from the powershell and open the other powershell, then make a docker ps, you will the see the docker that run in another powershell.
+And
+
+4- Suppose you open two powershell, you and you run the container and you want to stop it from another powershell you can write:
+    docker stop TheIDForTheContainer
+                ____________________
+
+5- To delete the container:
+    PS C:\Users\SAmmar> docker ps -a
+    CONTAINER ID   IMAGE     COMMAND    CREATED         STATUS                     PORTS     NAMES
+    efbe8473098e   openjdk   "jshell"   5 minutes ago   Exited (0) 2 minutes ago             gifted_sammet
+    dcbcc89785e7   openjdk   "jshell"   7 minutes ago   Exited (0) 7 minutes ago             suspicious_cartwright
+    PS C:\Users\SAmmar> docker rm efbe8473098e
+    efbe8473098e
+    PS C:\Users\SAmmar> docker ps -a
+    CONTAINER ID   IMAGE     COMMAND    CREATED          STATUS                      PORTS     NAMES
+    dcbcc89785e7   openjdk   "jshell"   10 minutes ago   Exited (0) 10 minutes ago             suspicious_cartwright
+    PS C:\Users\SAmmar>
+
+    And You can delete the delete both:
+    PS C:\Users\SAmmar> docker ps -a
+    CONTAINER ID   IMAGE     COMMAND    CREATED          STATUS                      PORTS     NAMES
+    d131f0c0a626   openjdk   "jshell"   13 seconds ago   Exited (0) 4 seconds ago              trusting_noether
+    dcbcc89785e7   openjdk   "jshell"   11 minutes ago   Exited (0) 11 minutes ago             suspicious_cartwright
+    PS C:\Users\SAmmar> docker rm dcbcc89785e7 d131f0c0a626
+    dcbcc89785e7
+    d131f0c0a626
+    PS C:\Users\SAmmar> docker ps -a
+    CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+    PS C:\Users\SAmmar>
+
+6- If you use this command:
+   docker run -it --rm openjdk
+   you will this docker just a once then it's will deleted.
+
+7- If you use this command:
+    docker run -it --rm --name tomcat -p 8888:8080 tomcat:9.0
+    you change the name.
+
+8- If you use this command:
+    docker rmi 9c7cb1ea80ee
+    you delete the image.
+____________________________________________________________________________________________________________________________________________
+
+There are two types of images:
+    1- Pre-build image (Image already exist like tomcat) (Using Docker hub).
+    2- Build our image (Image I want to build it). (Write our Dockerfile).
+    Here I build the the image:
+        FROM openjdk:11
+        ARG JAR_FILE=target/*.jar
+        COPY ${JAR_FILE} app.jar
+        ENTRYPOINT ["java", "-jar", "app.jar"]
+
+
+
+
+
+

@@ -1,0 +1,142 @@
+____________________________________________________________________________________________________________________________________________________________________________
+|Feature                   |                      Spring Boot                             |                             Quarkus                                            |
+|__________________________|______________________________________________________________|________________________________________________________________________________|
+|Framework Type            |     Spring-based framework for building applications.        |              Kubernetes-native framework optimized for cloud.                  |
+|__________________________|______________________________________________________________|________________________________________________________________________________|
+|Startup Time              |    Moderate startup time, suitable for traditional apps.     |              Extremely fast startup time, ideal for microservices.             |
+|__________________________|______________________________________________________________|________________________________________________________________________________|
+|Memory Usage              |              Higher memory consumption overall.              |              Low memory usage and optimized resource efficiency.               |
+|__________________________|______________________________________________________________|________________________________________________________________________________|
+|Configuration             |      Uses YAML files and properties for configuration.       |   Prioritizes build-time configuration, works with JAR and native images.      |
+|__________________________|______________________________________________________________|________________________________________________________________________________|
+|Dependency Management     |  Rich ecosystem with many integrations and libraries.        |              Expanding ecosystem, with a focus on cloud integrations.          |
+|__________________________|______________________________________________________________|________________________________________________________________________________|
+|Programming Model         |          Primarily imperative programming style.             |              Supports both imperative and reactive programming.                |
+|__________________________|______________________________________________________________|________________________________________________________________________________|
+|Dependency Injection      |  Uses @Autowired annotation for dependency injection.        |  Uses CDI (Contexts and Dependency Injection) for a more flexible DI approach. |
+|__________________________|______________________________________________________________|________________________________________________________________________________|
+|Reload                    |      Supports hot swapping via Spring DevTools.              |              Built-in support for live reload during development.              |
+|__________________________|______________________________________________________________|________________________________________________________________________________|
+
+
+Spring Boot
+    Spring Boot is an extension of the Spring Framework designed to simplify the setup and development of new Spring applications.
+    It provides a range of features, including production-ready connectors, which enhance developer productivity and streamline the development process.
+    Spring Boot eliminates the need for extensive XML configuration and focuses on minimizing the time required for development, unit testing, and integration testing.
+    It is commonly utilized for developing microservices and enterprise-level applications.
+
+Example of Spring Boot:
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@SpringBootApplication
+public class SpringBootHelloWorld {
+
+    public static void main(String[] args) {
+        SpringApplication.run(SpringBootHelloWorld.class, args);
+    }
+
+    @RestController
+    static class HelloWorldController {
+        @GetMapping("/hello")
+        public String hello() {
+            return "Hello from Spring Boot!";
+        }
+    }
+}
+Explanation:
+    - @SpringBootApplication: Indicates the main class for Spring Boot application setup.
+    - main method: Entry point of the application; starts the Spring context.
+    - @RestController: Marks the class as a controller that handles web requests.
+    - @GetMapping("/hello"): Specifies the URL endpoint for GET requests.
+    - hello() method: Returns a simple greeting message when the /hello endpoint is accessed.
+
+Quarkus
+    Quarkus is a Java framework optimized for Kubernetes, designed specifically for GraalVM and HotSpot.
+    It aims to optimize Java for Kubernetes environments, emphasizing low memory usage and fast startup times.
+    Quarkus provides a unified development model that supports both imperative and reactive programming styles.
+    It allows developers to leverage existing Java libraries while enhancing performance in cloud-native architectures.
+
+Example of Quarkus:
+
+import io.quarkus.runtime.Quarkus;
+import io.quarkus.runtime.annotations.QuarkusMain;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+
+@QuarkusMain
+public class QuarkusHelloWorld {
+
+    public static void main(String[] args) {
+        Quarkus.run(args);
+    }
+
+    @Path("/hello")
+    public static class HelloWorldResource {
+
+        @GET
+        @Produces(MediaType.TEXT_PLAIN)
+        public String hello() {
+            return "Hello from Quarkus!";
+        }
+    }
+}
+Explanation:
+    - @QuarkusMain: Indicates the main class for the Quarkus application setup.
+    - main method: Entry point of the application; starts the Quarkus context.
+    - @Path("/hello"): Defines the URL endpoint for this resource class.
+    - @GET: Maps this method to respond to GET HTTP requests.
+    - @Produces(MediaType.TEXT_PLAIN): Specifies that the method returns plain text.
+    - hello() method: Returns a simple greeting message when the /hello endpoint is accessed.
+
+
+The difference between Spring Boot and Quarkus:
+Spring Boot: is what's known as an opinionated framework (opinionated framework provides a predefined structure and enforces specific conventions and best practices for development), for creating and production-ready Spring application. And what Spring boot does exceptionally well is,
+it get a rid of a lot of boilerplate code when developing java applictioans, and it comes witha a vast ecosystem that makes it a go-to for many developeres.
+
+Quarkus: is a newer java framework but it takes a different approach.  Quarkus is made for delivering container-optimized and cloud native applications,
+that have a faset boot time and better resources utilization. It also combines both the imperative and reactiove programing models and has a lot of tools for developer productivity.
+
+
+Now, where do we ever begin with comparing spring boot and quarkus:
+Let's take a look at their different use cases, because Spring Boot is generally used to speed up the time to market for working with java application.
+And then Quarkus, on the other hand, is made for optimized cloud ready images and application as well.
+
+The both of these can compile applications using both JVM, which is like running out apps thourgh an interperter and natively,
+which is compling an application for a specific machine, and it has a lot of performance benefits,
+but speaking of performance I to go one step furher and talk about agruably difference between Spring Boot and Quarkus. So this relies in the differences between build time and runtime.
+
+So I'll use a different color to map out Quarkus, but let's start off with Spring Boot and look at the build time, So during the build time,
+this is the packaging of the application using perhaps a tool like maven to get the applciation ready, and then during runtime, different tasks are happening,
+so we're working with configuration files, we're working with scanning for class paths and initializing components, and this is happening every time that we start out application.
+
+And what Quarkus does is it kind of flips this on its head, and tries to do as much preprocessing as possiable.
+So this result during the build time and tha packaging of out application and all other tasks and then hen we actaully go to run oout application
+we have what's known as a pre-warmed image that has a faster boot time and better resource utilization.
+
+Okay, so that was performance, but now let's take a look at developer experience, as it goes hand in hand with the speed and the cost of software develpment.
+Now we'll start off with Spring Boot and what it does very well is it abstarct a lot of the complexity of building out a java application,
+this is because of things such as it's popularity with auto configuration, uses of annotations, things like code constructs,
+and if you are already familiar with Spring Boot, it can be very fast to get an application up and running.
+Now Quarkus also brings in some great components in what's known as Quarkus's "Developer Joy", and so what this developer Joy includes is a bunch of different components,
+such as live coding and continual testing, integrated by defult, the quarkus developer UI which is a great way to visualize your dependecies, documentation, things like swagger,
+and also the Quarkus CLI for interacting with our project from the command lin, so they both offer their unique advantages, when it comes to a development experince.
+
+But let's also talk about the ecosystem for both of them,
+
+Now we'll start off with Spring Boot again, which originally was created 2014 and has since become the de facto standered for building enterprice Java application and becouse of this,
+it has a quite a large community, and documentation and resources for building applcations with Spring Boot and debugging.
+Now, on the other hand, Quarkus was created in 2019, and has beed rising in popularity ever since, this is parially due to the popularization of Kubernetes as a container orchestration system,
+and becuase of it's extensibily with over 800 different externsions that you can use for your projects.
+
+How do you really pick which one to use for your project?
+Well, let's start off with Quarkus, becahse if you are working with serverless or containerized applications with minimal resource consumpution,
+Quarkus is probably going to be your best bet. Quarkus has a highly active community,
+a lot of up to date a comprehensive documentation and growing support from a lot of leading tech compaines who have adopted Quarkus.
+Now if your looking for a mature framework with a vast ecosystem then Spring Boot will probably be you best bet. Spring Boot is well known,
+it's very adopted and it's a complete and universal solution for any task right out of the box.

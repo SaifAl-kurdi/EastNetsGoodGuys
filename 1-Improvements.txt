@@ -1,0 +1,59 @@
+Improvements:
+1- Make a report violations is Yes or No not true or false. (Export and search)
+2- Make a shared is Yes or No not true or false. (Export and search)
+3- In each microservice should modify in the output and make the report violation and shard is (Yes, or No) not (True, or False).
+4- When I import XML the shared and report violations is always zero.
+
+5- Make a front-end and beans, read a jsf life cycle.
+
+6- Try to delete the connect with database from ExportPDF "application.properties".
+7- Chick on the connect between Export PDF and Search microservices.
+
+8- I should make a import and export successful message. (Export XML message is not handling)
+
+9- In search microservice, I should use JPA not JPQL (Java Persistence Query Language).
+10- Learn a design pattern, and add some of them to my code.
+
+11- I want to try to use the interfaces.
+12- I should delete a duplicate code.
+
+13- There is no need to refresh the page when the user want's to export, import, and search.
+
+14- Optimization the time when the user he wants to search, and export PDF.
+15- When the user wants to make a search, improve the time.
+
+
+16- Format the Date and Time.
+17- Chick on the search output.
+18- Study the Serialization.
+19- The user maybe wants to upload XML file directly, not write the path.
+20- The user maybe wants to export PDF file directly, not write the path.
+21- Search and implements the search criteria.
+
+________________________________________________________________________________________________________________________________________________________________________________
+
+22- Make the report violation is Yes and No.
+23- Chick on the bulk insertion.
+24- If the database empty should the error message.
+25- If the user don't make a search about any field, they should the have an error message.
+26- The user should enter any field to make the search, and if the user make all the fields empty, they should have be an error.
+27- Make a security layer.
+28- Single Responsibility Principle (SRP): Classes are self-contained to do the task(s) they need to do and nothing else.
+29- Dependency Inversion Principle: Code should depend on interfaces, no concrete implementations. Constructor or setter signatures that depend on concrete implementations.
+30- Abuse of static and singleton: Avoid the use of static and singleton to use the Substitution Principle.
+31- Duplicated code: Reused code should be encapsulated.
+32- Use of Java streams and lambdas is encouraged.
+33- Make the PDF depend on the output of the search microservice.
+34- Make all https req, send a token.
+35- When the user ref the site, no need to logout.
+36- The user should can make a log out.
+37- Delete all the loops form the code, and use Map (key, values).
+
+________________________________________________________________________________________________________________________________________________________________________________
+
+38- Comment in the code.
+39- Make an ERD Diagram.
+40- All communication between UI and Quarkus service must be in secure communication using RestAPI with security layer.
+
+41- Make a comment for the System.out.println in my code
+

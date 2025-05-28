@@ -1,0 +1,493 @@
+The transient keyword in Java is used to indicate that a particular field of a class should not be serialized.
+Serialization is the process of converting an object's state into a byte stream, which can then be reverted back into a copy of the object. Fields marked as transient are skipped during this process.
+
+The transient keyword is used when we do not want the variable to be serialized, i.e., we do not want the value of that variable to be stored in a file.
+Whenever JVM sees the transient keyword, it ignores the original value of the value and just stores the default value of the same.
+
+Beans are Java™ classes that adhere to specific conventions regarding property and event interface definitions.
+By conforming to the conventions, you can turn almost any existing programming component or Java class into a bean.
+
+_______________________________________________________________________________________________________________________________________________________
+
+1. supplyAsync vs. runAsync
+	runAsync(Runnable)
+		What it does:
+			- Executes a piece of code that does not return a value on a separate thread.
+			- Think of it as “run this background task and I don’t care about any result—just do it.”
+		Key point:
+			- The future’s type is CompletableFuture<Void> meaning there is no result from the background task.
+
+	supplyAsync(Supplier<U>)
+		What it does:
+			- Executes a piece of code that returns a result on a separate thread.
+			- Think of it as “run this background task in the background, and give me back some computed result.”
+		Key point
+			- The future’s type could be something like CompletableFuture<Integer>—you can get a value from that background operation when it completes.
+
+
+2. CompletableFuture vs. CompletionStage
+	CompletionStage (Interface)
+		What it is
+			- A pure interface (no implementation details) that defines the methods for composing async computations (like thenApply, thenAccept, thenCompose, etc.).
+			- It’s part of Java’s concurrency framework introduced in Java 8 to represent the “promise” of a future result.
+		Key point
+			- You cannot create a CompletionStage directly since it’s an interface. You need a concrete class to actually run the code.
+
+	CompletableFuture (Class)
+		What it is
+			- A concrete class that implements the CompletionStage interface (and the Future interface).
+			- It provides implementation for all those methods (like thenApply, thenAccept, thenCombine) and also includes additional methods (like complete,
+			completeExceptionally, etc.).
+
+			Future is an interface that represents the result of an asynchronous computation. It allows you to cancel a task, check if it has completed, and retrieve the result
+			of the computation. java. util. concurrent.
+
+		Key point
+			- CompletableFuture is the “go-to” class when you want to create or chain asynchronous computations in Java.
+			- It extends CompletionStage capabilities by letting you manually complete a future, handle errors, or chain tasks.
+
+
+The Runnable interface should be implemented by any class whose instances are intended to be executed by a thread. The class must define a method of no arguments called run.
+This interface is designed to provide a common protocol for objects that wish to execute code while they are active. For example, Runnable is implemented by class Thread.
+Being active simply means that a thread has been started and has not yet been stopped.
+
+In addition, Runnable provides the means for a class to be active while not subclassing Thread.
+A class that implements Runnable can run without subclassing Thread by instantiating a Thread instance and passing itself in as the target.
+In most cases, the Runnable interface should be used if you are only planning to override the run() method and no other Thread methods.
+This is important because classes should not be subclassed unless the programmer intends on modifying or enhancing the fundamental behavior of the class.
+
+_______________________________________________________________________________________________________________________________________________________
+
+Contexts and Dependency Injection (CDI):
+	- Contexts: This service enables you to bind the lifecycle and interactions of stateful components to well-defined but extensible lifecycle contexts.
+	- Dependency Injection: This service enables you to inject components into an application in a typesafe way and to choose at deployment time which implementation of a particular interface to inject.
+
+_______________________________________________________________________________________________________________________________________________________
+
+Scopes:
+	@Dependet, is a scope, Spose to I have a @Inject on the main class, and the car class doesn't have a scope,
+	I put the @Dependent above the car class to give instance for the @Inject on the main class, that means any class wants to @Inject from the car class, the @Dependet will give the class a new instance.
+	@RequestScoped.
+	@SossionSecped.
+	@ApplicationScoped.
+
+_______________________________________________________________________________________________________________________________________________________
+
+maven is based on POM (Project Object Model), and it focuses of simplification and standardization of the building process, in the process, it takes car of the follwing:
+	1- Builds.
+	2- Dependecies.
+	3- Repoorts.
+	4- Distributation.
+	5- Relasess.
+	6- Mailing list.
+
+Maven repositories refer to the dicections of pakaged JAR files that contain metadata. The metadata refers to the POM files relevent to each project. This metadata is what allows Maven to dowaload dependency.
+There are three types of repositories:
+	1- Loacl repository: Local repository refers to the machine of the developer where all project metirial is saved, this repository contains all the dependency jars.
+	2- Remote repository: The remote repository refers to the repository present on a web server which is used when Maven needs to download dependecies.
+	    This repository works same as 	the cetral repository. Whenever anything is needed from remote repository it is the first downloaded to the local repository ad then it is used.
+	3- Central repository: Central repository refers to the Maven community that comes into action when there is a needed of dependecies,
+	and those dependecies cannot be found in the 	loacl repository. Maven downloads the dependencies from here in the local repository whenever needed.
+
+Project Object Model (POM):
+	- And the Project Object Model (POM) refers to XML files that have all a information regarding project and configuration details.
+	- It has the description of the project, details regareding the version and configuration management of the project.
+	- The XML file is in the project home dirctory. Maven searches for the pom xml in current dirctory when any task is to executed.
+
+Dependencies and Repositories:
+	- Dependencies refer to the Java libraries required for the project. Repositories refer to directories containing packaged JAR files.
+	- If the dependencies are not available in your local repository, Maven downloads them from a central repository and stores them in the local repository.
+
+Build Life Cycles, phases and Goals:
+	- Build life cycles consist of a sequence of build phases, and each build phase contains a sequence of goals.
+	- Each goal is responsible for performing a specific task.
+	- When a phase is executed, all the goals related to that phase and its associated plugins are also compiled.
+
+Build Profiles:
+	- Build profiles refer to the set of configuration values required to build a project using different configurations.
+	- Different build profiles are added to the POM files to enable various builds.
+	- A build profile helps in customizing the build process for different environments.
+
+Build Plugin:
+	- Maven plugins refer to a group of goals. These goals may or may not belong to the same phase.
+	- Plugins are used to perform specific tasks or goals.
+	- Maven provides its own standard plugins that can be used. Additionally, custom plugins can be implemented in Java if required.
+
+How does it work:
+	- Read the pom.xml file.
+	- Download dependencies defined in pom.xml into the local repository from the central repository.
+	- Create and generate a report according to the requirements and execute life-cycles, phases, goals, plugins, etc.
+
+Maven Build life cycle:
+	- Maven Life Cycle: The Maven life cycle is a collection of steps to be followed to build a project.
+	- There are three built-in build life cycles:
+		- Default: Handles project deployment.
+		- Clean: Handles project cleaning.
+		- Site: Handles the creation of the project's site documentation.
+
+The build life cycle has different build phases or stages;
+	1- Compile. 2- Test-Compile. 3- Test. 4- Packages. 5- Integration-test. 6- Verify. 7- Install. 8- Install. 9- Deploy.
+
+_______________________________________________________________________________________________________________________________________________________
+
+Beans!!!!!!!!!!!!!!!!!!?????????????????????????!!!!!!!!!!!!!!!!!!!!!!!!!!!!?????????????????????????
+
+_______________________________________________________________________________________________________________________________________________________
+
+
+@Transactionl:
+What Does @Transactional Do, in Simple Terms?
+1- One “All-or-Nothing” Action
+When you mark a method or class with @Transactional, you tell the system, “Treat everything that happens inside here as a single unit of work.
+Either every operation in this method successfully completes together, or if something goes wrong, discard everything and roll back to how it was before.”
+
+2- Saves You from Partial Updates
+Without transactions, you can end up with partial updates in your database if something fails halfway.
+For example, you might have deducted money from a customer’s account but never actually shipped the product because the shipping step failed.
+Transactions ensure that if any step in the process fails, everything is reverted, keeping your data consistent.
+
+3- Easy Declarative Approach
+You don’t have to manually write code to start, commit, or roll back a transaction. By using @Transactional, the framework or container (like Spring or Jakarta EE) automatically does that for you around your method.
+
+
+Real-Life Example (Non-Coding)
+Scenario:
+Imagine you run an online bookstore. A customer wants to buy a book. Several things happen in this process:
+    1- Decrease Book Stock – You reduce the number of that book in your inventory.
+    2- Charge Payment – You send a payment request to the payment gateway, deducting money from the customer’s credit card.
+    3- Generate Invoice – You create an invoice record.
+
+What Could Go Wrong?
+    1- The book might have gone out of stock right after you deducted the inventory, but before you charged the customer.
+    2- The payment might fail after you have already reduced your stock count in the database.
+    3- Generating the invoice might fail due to a system error, leaving you with inconsistent data (money charged, but no invoice on record).
+
+How @Transactional Helps
+    1- By marking this entire checkout process with @Transactional, all three steps (reduce stock, charge payment, generate invoice) either succeed as a whole or fail as a whole.
+    2- If any step throws an exception (for example, payment fails), the transaction is rolled back:
+        a- The stock level reverts to what it was before the transaction started.
+        b- No charge is made to the customer’s card.
+        c- No invoice is created.
+    3- If everything goes smoothly, the transaction commits, meaning:
+        a- The stock is successfully updated.
+        b- The payment is deducted from the customer’s credit card.
+        c- The invoice is recorded in the system.
+
+
+Coding Example (Spring):
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+@Service
+public class BookOrderService {
+
+    private final BookInventoryRepository bookInventoryRepository;
+    private final PaymentGateway paymentGateway;
+    private final InvoiceRepository invoiceRepository;
+
+    // Assume these are injected through the constructor
+    public BookOrderService(BookInventoryRepository bookInventoryRepository,
+                            PaymentGateway paymentGateway,
+                            InvoiceRepository invoiceRepository) {
+        this.bookInventoryRepository = bookInventoryRepository;
+        this.paymentGateway = paymentGateway;
+        this.invoiceRepository = invoiceRepository;
+    }
+
+    // This annotation means everything inside this method
+    // runs in a single transaction.
+    @Transactional
+    public void placeOrder(Long bookId, String paymentInfo) {
+
+        // 1) Decrease Book Stock
+        Book book = bookInventoryRepository.findById(bookId)
+            .orElseThrow(() -> new RuntimeException("Book not found"));
+        book.decrementStock(1);
+        bookInventoryRepository.save(book);
+
+        // 2) Charge Payment
+        boolean paymentSuccessful = paymentGateway.charge(paymentInfo, book.getPrice());
+        if (!paymentSuccessful) {
+            throw new RuntimeException("Payment failed!");
+        }
+
+        // 3) Generate Invoice
+        Invoice invoice = new Invoice();
+        invoice.setBookId(bookId);
+        invoice.setAmount(book.getPrice());
+        invoice.setTimestamp(System.currentTimeMillis());
+
+        invoiceRepository.save(invoice);
+
+        // If any of the above steps fails, an exception is thrown
+        // and the entire transaction is rolled back automatically.
+    }
+}
+
+Explanation of the Code
+	- @Service: Marks the class as a Spring service (a component that typically holds business logic).
+	- @Transactional: Ensures all operations in the placeOrder() method are part of a single transaction.
+	- Stock Decrement: We decrement the available inventory for the chosen book.
+	- Payment Charge: A call to an external payment gateway or service. If charging fails, we throw an exception. That exception triggers a rollback of the entire transaction.
+	- Invoice Creation: If we get this far, we record the invoice in the database.
+	- Rollback or Commit: If the method completes without throwing any exceptions, the transaction is committed. If an exception occurs, everything is rolled back to the state before the method started.
+
+Final Thoughts
+	- The @Transactional annotation protects you from inconsistent or partial database changes.
+	- It simplifies code by letting the framework handle transaction boundaries for you.
+	- Real-life operations such as transferring money, placing orders, or managing subscriptions benefit greatly from using transactions.
+	- @Transactional is like a safety net around a group of database operations—if one step fails, none of the changes take effect, ensuring your data remains consistent and reliable.
+
+_______________________________________________________________________________________________________________________________________________________
+
+1. What is TxType?
+TxType is an enum that specifies how a method should behave in the presence (or absence) of a transaction.
+In other words, it defines when a new transaction should be started, if the method should join an existing transaction, or if the method should never run with a transaction.
+
+Available TxType Values
+	REQUIRED
+		- Default behavior in many frameworks.
+		- If a transaction already exists, the method joins it.
+		- If no transaction exists, a new transaction is started for the method.
+
+	REQUIRES_NEW
+		- A new transaction is always started for the method, regardless of any existing transaction.
+		- If there is already a transaction, that transaction is suspended until this one completes.
+		- After the method finishes, the original transaction (if any) resumes.
+
+	MANDATORY
+		- The method must be invoked within an existing transaction.
+		- If no transaction is running, the system throws an exception.
+
+	SUPPORTS
+		- If a transaction exists, the method joins it.
+		- If no transaction exists, the method simply runs without a transaction.
+		- In other words, it “supports” transactions but does not force them.
+
+	NOT_SUPPORTED
+		- The method never uses a transaction.
+		- If a transaction already exists, it is suspended for the duration of this method and then resumed afterward.
+
+	NEVER
+		- The method must not be called inside a transaction.
+		- If there is an active transaction, the system throws an exception.
+
+
+2. Real-Life Example (Non-Coding)
+Scenario: “Pizza Delivery Service”
+Imagine you have an application that handles the life cycle of a pizza order—from creation to delivery. Let’s examine different methods and how each TxType might help:
+
+	placeOrder() – TxType.REQUIRED
+		- Default transaction type.
+		- If a customer’s session already has a running transaction (maybe started by the checkout process), this method joins that transaction.
+		- Otherwise, it starts a new one. This ensures changes like “add pizza order to the database” and “decrease ingredient stock” happen in one unified transaction.
+
+	createNewPizza() – TxType.REQUIRES_NEW
+		- You want each pizza creation to be in its own transaction. Why? Maybe because you’re creating pizzas in batches, and you don’t want the failure of one pizza creation to affect others.
+		- This method always runs in a new transaction, pausing any existing transaction.
+
+	validateOrder() – TxType.MANDATORY
+		- Let’s say you have a separate validation service that must be called only when a transaction is already in progress. If no transaction is present,
+		    it’s an error because validation requires the same transaction context as the order.
+
+	checkOrderStatus() – TxType.SUPPORTS
+		- This might be a simple read-only method. If a transaction is running, great—just join it. If not, that’s okay, it runs outside of a transaction. No big deal.
+
+	printRecipe() – TxType.NOT_SUPPORTED
+		- Printing a recipe or preparing a PDF might not need a transaction at all (it might just be reading data, formatting it, or calling an external service).
+		- If the user is in the middle of a transaction, you don’t want to keep the database locked for this operation, so you suspend any active transaction while printing.
+
+	shutdownKitchen() – TxType.NEVER
+		- Suppose you have an admin function that physically shuts down the kitchen equipment, which shouldn’t happen inside a transaction.
+		    If someone tries to call shutdownKitchen() while a transaction is running, that should raise an error.
+
+By choosing the right TxType for each method, you ensure your pizza service is flexible, safe, and accurate, preventing partial updates and making sure every method runs with the correct transaction “rules.”
+
+
+3. Sample Code Demonstration
+import javax.inject.Inject;
+import javax.transaction.Transactional;
+import javax.transaction.Transactional.TxType;
+
+public class PizzaService {
+
+    @Inject
+    private PizzaRepository pizzaRepository;
+
+    @Inject
+    private KitchenManager kitchenManager;
+
+    // 1) REQUIRED
+    // If there's an existing transaction, join it; otherwise start a new one.
+    @Transactional(TxType.REQUIRED)
+    public void placeOrder(PizzaOrder order) {
+        pizzaRepository.save(order);          // persist the order
+        kitchenManager.allocateIngredients(); // reduce stock for ingredients
+        // If something fails, the entire transaction rolls back
+    }
+
+    // 2) REQUIRES_NEW
+    // Always starts a brand-new transaction, suspending any existing one.
+    @Transactional(TxType.REQUIRES_NEW)
+    public void createNewPizza(Pizza pizza) {
+        pizzaRepository.save(pizza);
+        // This operation is completely isolated from any other transaction
+    }
+
+    // 3) MANDATORY
+    // Must be called within an existing transaction or throws an exception.
+    @Transactional(TxType.MANDATORY)
+    public void validateOrder(Long orderId) {
+        // Will only work if there's already a transaction in place
+        PizzaOrder order = pizzaRepository.findOrderById(orderId);
+        if (!order.isValid()) {
+            throw new RuntimeException("Invalid order!");
+        }
+    }
+
+    // 4) SUPPORTS
+    // Joins a transaction if one exists, otherwise runs without one.
+    @Transactional(TxType.SUPPORTS)
+    public PizzaOrder checkOrderStatus(Long orderId) {
+        return pizzaRepository.findOrderById(orderId);
+        // If there's a transaction, it's used. Otherwise, it's non-transactional.
+    }
+
+    // 5) NOT_SUPPORTED
+    // Suspends any existing transaction during this method call.
+    @Transactional(TxType.NOT_SUPPORTED)
+    public void printRecipe(Pizza pizza) {
+        // Possibly calls external print service or just returns a recipe PDF
+        // No database changes should happen here.
+    }
+
+    // 6) NEVER
+    // If there's an active transaction, throw an exception.
+    @Transactional(TxType.NEVER)
+    public void shutdownKitchen() {
+        kitchenManager.shutdownAllEquipment();
+        // This operation must not be executed within a transaction.
+    }
+}
+
+Final Thoughts
+	- Choosing the right TxType is important to ensure data consistency and to optimize performance.
+	- REQUIRED is the most common and straightforward choice for many operations.
+	- Other types (REQUIRES_NEW, MANDATORY, SUPPORTS, NOT_SUPPORTED, and NEVER) are used for special cases where you have specific transaction behaviors or need to isolate certain operations from others.
+	- Thinking carefully about your business logic and how each operation interacts with your database (or external systems) will guide you to select the correct TxType.
+
+
+_______________________________________________________________________________________________________________________________________________________
+
+The idea of the web services is find shared way that make all the different devices can talk with each other throw the web services.
+The web service is a service delivered over the web, I can send and receive throw the web,
+
+Ways to send and response HTTP requests:
+	- Web services using Traditional way: Send requests and processing on the server side (I want to login, so the username and password will send to the server,
+	then the server will processing the data) Suppose to I want to login in facebook, the server will response my but with action (The page will change).
+
+	- Web services using Restful API (Representational State Transfer): Send request and processing by the receiver (receiver may be my mobile application or may be my the website)
+	    That means suppose to I want to make a login in facebook, the server still will send a response,
+	    but without action will be from the mobile application (Send and receive in JSON format), and you can make a control from your code which you are using nodeJs, java, or filter.
+	- Web services using SOAP (Simple object Access Protocol): Send request and processing by the receiver. And the soap it's have the same idea of the rest full api,
+	    but will send and receive but in the XML format, and you can make a control from your code which you are using nodeJs, java, or filter.
+
+And when you want to chick you account bank from ATM, and mobile application, the system may be build in java, the ATM in C++, and the mobile application in kotlin,
+so the first thing the system will convert the java to the json, then the ATM will convert the json to the C++, and mobile application will convert the json to the kotlin.
+(The json that comes from convert the java to the json this is the web service (first json
+
+_______________________________________________________________________________________________________________________________________________________
+
+They propagate transaction context from caller to callee, to ensure that all programs executing the transaction have the same transaction context.
+The second issue is addressed in different ways, depending on whether the program is a resource manager that needs to participate in two-phase commit.
+
+_______________________________________________________________________________________________________________________________________________________
+
+Optional it's a new feature, it's add to solve the null pointer exception error.
+
+_______________________________________________________________________________________________________________________________________________________
+
+Eager and Lazy loading:
+	- Eager loading: load all the data from the database in single query,
+	    which can be cashed to improve the application performance with eager loading we are trading memory consumption for database round trips, because we loading all the data in a single query.
+	- Lazy loading: We only retrieve just the amount of data that we need in single query when we need more data related to the initial data additional queries are issued to the database,
+	this means there are several round trips between the application server the database server in general these database round trips are very often the major performance bottleneck
+	in most applications lesser the round trips, better performance.
+
+_______________________________________________________________________________________________________________________________________________________
+
+Service-Oriented Architecture VS Microservices
+    Split the huge System to sub-systems, but these sub-systems have (multiple sub-systems).
+    Here the microservice comes in a new architecture, to make each sub-systems work separately.
+    Here I faced a new problem now I have a many of services, how to manage these services??
+    Here there is a new concept comes (Containerization), I will put each service in different container, and each container have a separate manage, and
+    each container will talk with different database. Here the new tool is coming (Docker). Now I have a new problem, now I have a huge number of containers,
+    here a new concept is come (Kubernetes) is manage the deployment and the container to see which one of these containers is work or no.
+
+
+
+The Microservices can communicate together throw three ways:
+    1- API: The most famous way (Synchronous way) Same as my solution.
+    2- Message broker: It's Asynchronous way I think it's like (Kafka).
+    3- Service mesh: It's depend on the communication helper, and the communication helper is responsible for communication between all the server via the application.
+
+mesh
+_______________________________________________________________________________________________________________________________________________________
+
+What does mean logging and profiling?
+    Profiling is used to determine the run time efficiency of a program. It may be used to measure memory usage or CPU usage. You can use it to optimize your code.
+    Logging on the other hand is an auditing function. You want to see what the program did while it was running.
+
+_______________________________________________________________________________________________________________________________________________________
+
+Aspect-Oriented Programming (AOP) is a programming paradigm that aims to increase modularity by allowing the separation of cross-cutting concerns.
+modularity: To design or produce, for example: They have modularized their code.
+
+_______________________________________________________________________________________________________________________________________________________
+
+The difference between Spring Boot and Quarkus:
+Spring Boot: is what's known as an opinionated framework, for creating and production-ready Spring application. And what Spring boot does exceptionally well is,
+it get a rid of a lot of boilerplate code when developing java applictioans, and it comes witha a vast ecosystem that makes it a go-to for many developeres.
+
+Quarkus: is a newer java framework but it takes a different approach.  Quarkus is made for delivering container-optimized and cloud native applications,
+that have a faset boot time and better resources utilization. It also combines both the imperative and reactiove programing models and has a lot of tools for developer productivity.
+
+
+Now, where do we ever begin with comparing spring boot and quarkus:
+Let's take a look at their different use cases, because Spring Boot is generally used to speed up the time to market for working with java application.
+And then Quarkus, on the other hand, is made for optimized cloud ready images and application as well.
+
+The both of these can compile applications using both JVM, which is like running out apps thourgh an interperter and natively,
+which is compling an application for a specific machine, and it has a lot of performance benefits,
+but speaking of performance I to go one step furher and talk about agruably difference between Spring Boot and Quarkus. So this relies in the differences between build time and runtime.
+
+So I'll use a different color to map out Quarkus, but let's start off with Spring Boot and look at the build time, So during the build time,
+this is the packaging of the application using perhaps a tool like maven to get the applciation ready, and then during runtime, different tasks are happening,
+so we're working with configuration files, we're working with scanning for class paths and initializing components, and this is happening every time that we start out application.
+
+And what Quarkus does is it kind of flips this on its head, and tries to do as much preprocessing as possiable.
+So this result during the build time and tha packaging of out application and all other tasks and then hen we actaully go to run oout application
+we have what's known as a pre-warmed image that has a faster boot time and better resource utilization.
+
+Okay, so that was performance, but now let's take a look at developer experience, as it goes hand in hand with the speed and the cost of software develpment.
+Now we'll start off with Spring Boot and what it does very well is it abstarct a lot of the complexity of building out a java application,
+this is because of things such as it's popularity with auto configuration, uses of annotations, things like code constructs,
+and if you are already familiar with Spring Boot, it can be very fast to get an application up and running.
+Now Quarkus also brings in some great components in what's known as Quarkus's "Developer Joy", and so what this developer Joy includes is a bunch of different components,
+such as live coding and continual testing, integrated by defult, the quarkus developer UI which is a great way to visualize your dependecies, documentation, things like swagger,
+and also the Quarkus CLI for interacting with our project from the command lin, so they both offer their unique advantages, when it comes to a development experince.
+
+But let's also talk about the ecosystem for both of them,
+
+Now we'll start off with Spring Boot again, which originally was created 2014 and has since become the de facto standered for building enterprice Java application and becouse of this,
+it has a quite a large community, and documentation and resources for building applcations with Spring Boot and debugging.
+Now, on the other hand, Quarkus was created in 2019, and has beed rising in popularity ever since, this is parially due to the popularization of Kubernetes as a container orchestration system,
+and becuase of it's extensibily with over 800 different externsions that you can use for your projects.
+
+How do you really pick which one to use for your project?
+Well, let's start off with Quarkus, becahse if you are working with serverless or containerized applications with minimal resource consumpution,
+Quarkus is probably going to be your best bet. Quarkus has a highly active community,
+a lot of up to date a comprehensive documentation and growing support from a lot of leading tech compaines who have adopted Quarkus.
+Now if your looking for a mature framework with a vast ecosystem then Spring Boot will probably be you best bet. Spring Boot is well known,
+it's very adopted and it's a complete and universal solution for any task right out of the box.

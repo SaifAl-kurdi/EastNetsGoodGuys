@@ -1,0 +1,37 @@
+Collections:
+    1- Mutable?     2- Fixed Size?      3- Indexed?
+
+1- Array:
+    int[] x = {1,2,3,4,5,6};
+                or
+    int[] x = new int [size];
+    The problem of the array is it a fixed size.
+
+2- List:
+    a- Array list
+    b- LinedList
+    c- Vector
+    d- Stack
+
+3- Queue
+    a- PriorityQueue
+    b- ArrayDequeue
+
+4- Set:
+    a- TreeSet
+    b- HashSet
+    c- LinkedHashsSt
+
+5- Map:
+    a- TreeMap.
+    b- HashMap.
+    c- LinkedHashMap
+
+
+
+Here the normal array is a fixed size, but the other collections are dynamic size.
+    The different between them here:
+        1- The Set is dynamic indexed array.
+        2- The queue is not indexed array.
+        3- The set is not indexed array at the same time is non-duplicated elements.
+        4- The map is dictionary (key, value).

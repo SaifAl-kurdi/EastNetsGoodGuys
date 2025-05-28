@@ -1,0 +1,88 @@
+
+
+
+-- XMLImport
+
+Create Database XMLImport;
+
+CREATE TABLE GoodGuys (
+    id INT PRIMARY KEY IDENTITY,
+    acceptedString VARCHAR(255),
+    condition VARCHAR(255),
+    comments VARCHAR(255),
+    creationDate VARCHAR(255),
+    createdBy VARCHAR(255),
+    reportViolations VARCHAR(255),
+    shared VARCHAR(255),
+    rank INT
+);
+
+CREATE TABLE AcceptedMatches (
+    id INT PRIMARY KEY IDENTITY,
+    checkSum VARCHAR(255),
+    externalID VARCHAR(255),
+    listName VARCHAR(255),
+    acceptedMatch VARCHAR(255),
+    entityMainName VARCHAR(255),
+    goodguy_id INT NOT NULL,
+    FOREIGN KEY (goodguy_id) REFERENCES GoodGuys(id) ON DELETE CASCADE
+);
+
+
+Select * From GoodGuys Inner Join AcceptedMatches On GoodGuys.id = AcceptedMatches.goodguy_id
+Select count (*) from GoodGuys
+Select * From AcceptedMatches
+
+INSERT INTO GoodGuys (acceptedString, condition, comments, creationDate, createdBy, reportViolations, shared, rank)
+VALUES
+('Accepted1', 'Condition1', 'Comment1', '2025-02-17', 'Admin', 'None', 'Yes', 1),
+('Accepted2', 'Condition2', 'Comment2', '2025-02-17', 'User1', 'Minor', 'No', 2),
+('Accepted3', 'Condition3', 'Comment3', '2025-02-17', 'User2', 'Major', 'Yes', 3);
+INSERT INTO AcceptedMatches (checkSum, externalID, listName, acceptedMatch, entityMainName, goodguy_id)
+VALUES
+('abc123', 'EXT001', 'MatchList1', 'MatchA', 'EntityA', 1),
+('def456', 'EXT002', 'MatchList2', 'MatchB', 'EntityB', 2),
+('ghi789', 'EXT003', 'MatchList3', 'MatchC', 'EntityC', 3);
+INSERT INTO AcceptedMatches (checkSum, externalID, listName, acceptedMatch, entityMainName, goodguy_id)
+VALUES
+('abc123', 'EXT001', 'MatchList1', 'MatchA', 'EntityA', 1),
+('def456', 'EXT002', 'MatchList2', 'MatchB', 'EntityB', 2),
+('ghi789', 'EXT003', 'MatchList3', 'MatchC', 'EntityC', 3);
+
+
+_______________________________________________________________________________________________________________________________________
+
+
+-- Authentication
+
+CREATE TABLE userInfo (
+    id INT PRIMARY KEY IDENTITY,
+    username VARCHAR(255) NOT NULL,
+    password VARCHAR(255) NOT NULL
+);
+
+Select * From userInfo
+
+Drop table userInfo
+
+INSERT INTO userInfo (username, password)
+VALUES
+('john_doe', '123'),
+('jane_smith', '123'),
+('admin_user', '123');
+
+_______________________________________________________________________________________________________________________________________
+
+
+-- Notification
+
+Create Database Notification;
+
+Create Table messages (
+	id Int primary key Identity,
+	message Varchar
+)
+
+Select * From messages
+
+Insert into messages (message) values ('The data loaded successfully')

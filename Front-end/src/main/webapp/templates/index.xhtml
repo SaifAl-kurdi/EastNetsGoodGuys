@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      lang="en" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://primefaces.org/ui ">
+    <h:head>
+        <title>Microservices Frontend</title>
+        <link rel="stylesheet" type="text/css" href="styles.css"/>
+    </h:head>
+
+    <h:body>
+        <h:form id="mainForm" enctype="multipart/form-data">
+            <h1>Frontend Microservice</h1>
+
+            <p:growl id="messages" showDetail="true" life="3000"/>
+
+            <p:panel header="Import XML">
+                <p:fileUpload value="#{importXMLBean.file}" skinSimple="true" mode="simple" allowTypes="/(\.|\/)(xml)$/" label="Choose XML File" sizeLimit="50000000" auto="false"/>
+                <p:commandButton value="Import" action="#{importXMLBean.importXML}" icon="pi pi-upload" update="messages" ajax="false"/>
+                <p:messages for="messages" showDetail="true" showSummary="true"/>
+            </p:panel>
+
+            <p:panel header="Search Criteria" styleClass="search-panel">
+                <p:panelGrid id="panelGrid1" columns="8" cellpadding="20">
+                    <p:outputLabel for="id" value="ID:"/>
+                    <p:inputText id="id" value="#{searchBean.goodGuysDTO.id}"/>
+
+                    <p:outputLabel for="acceptedString" value="Accepted String:"/>
+                    <p:inputText id="acceptedString" value="#{searchBean.goodGuysDTO.acceptedString}"/>
+
+                    <p:outputLabel for="condition" value="Condition:"/>
+                    <p:inputText id="condition" value="#{searchBean.goodGuysDTO.condition}"/>
+
+                    <p:outputLabel for="comments" value="Comments:"/>
+                    <p:inputText id="comments" value="#{searchBean.goodGuysDTO.comments}"/>
+
+                    <p:outputLabel for="creationDate" value="Creation Date:"/>
+                    <p:calendar id="creationDate" value="#{searchBean.goodGuysDTO.creationDate}" pattern="dd.MM.yyyy HH:mm:ss" mode="popup" showOn="button" popupIconOnly="true" navigator="true"/>
+
+                    <p:outputLabel for="createdBy" value="Created By:"/>
+                    <p:inputText id="createdBy" value="#{searchBean.goodGuysDTO.createdBy}"/>
+
+                    <p:outputLabel for="reportViolations" value="Report Violations:"/>
+                    <p:selectOneMenu id="reportViolations" value="#{searchBean.goodGuysDTO.reportViolations}">
+                        <f:selectItem itemValue="" itemLabel="Select" noSelectionOption="false"/>
+                        <f:selectItem itemValue="true" itemLabel="Yes"/>
+                        <f:selectItem itemValue="false" itemLabel="No"/>
+                    </p:selectOneMenu>
+
+                    <p:outputLabel for="shared" value="Shared:"/>
+                    <p:selectOneMenu id="shared" value="#{searchBean.goodGuysDTO.shared}">
+                        <f:selectItem itemValue="" itemLabel="Select" noSelectionOption="false"/>
+                        <f:selectItem itemValue="true" itemLabel="Yes"/>
+                        <f:selectItem itemValue="false" itemLabel="No"/>
+                    </p:selectOneMenu>
+
+                    <p:outputLabel for="rank" value="Rank:"/>
+                    <p:selectOneMenu id="rank" value="#{searchBean.goodGuysDTO.rank}">
+                        <f:selectItem itemLabel="Select" itemValue=""/>
+                        <f:selectItems value="#{searchBean.rankOptions}"/>
+                    </p:selectOneMenu>
+
+                    <p:outputLabel for="externalID" value="External ID:"/>
+                    <p:inputText id="externalID" value="#{searchBean.goodGuysDTO.externalID}"/>
+
+                    <p:outputLabel for="acceptedMatch" value="Accepted Match:"/>
+                    <p:inputText id="acceptedMatch" value="#{searchBean.goodGuysDTO.acceptedMatch}"/>
+
+                    <p:outputLabel for="entityMainName" value="Entity Main Name:"/>
+                    <p:inputText id="entityMainName" value="#{searchBean.goodGuysDTO.entityMainName}"/>
+                </p:panelGrid>
+                <p:commandButton value="Search" action="#{searchBean.getGoodGuys()}" icon="pi pi-search" style="margin-top: 20px" validateClient="true" ajax="true" update="dataTable messages"/>
+                <p:messages for="messages" showDetail="true" showSummary="true"/>
+            </p:panel>
+
+            <p:dataTable id="dataTable" value="#{searchBean.goodGuysList}" var="goodGuy" lazy="false" scrollable="true" scrollHeight="300">
+                <p:column headerText="ID">
+                    <h:outputText value="#{goodGuy.id}"/>
+                </p:column>
+                <p:column headerText="Accepted String">
+                    <h:outputText value="#{goodGuy.acceptedString}"/>
+                </p:column>
+                <p:column headerText="Condition">
+                    <h:outputText value="#{goodGuy.condition}"/>
+                </p:column>
+                <p:column headerText="Comments">
+                    <h:outputText value="#{goodGuy.comments}"/>
+                </p:column>
+
+                <p:column headerText="Creation Date">
+                    <h:outputText value="#{goodGuy.creationDate}"/>
+                </p:column>
+                <p:column headerText="Created By">
+                    <h:outputText value="#{goodGuy.createdBy}"/>
+                </p:column>
+                <p:column headerText="Report Violations">
+                    <h:outputText
+                            value="#{goodGuy.reportViolations == '1' ? 'Yes' : (goodGuy.reportViolations == '0' ? 'No' : '')}"/>
+                </p:column>
+                <p:column headerText="Shared">
+                    <h:outputText value="#{goodGuy.shared == '1' ? 'Yes' : (goodGuy.shared == '0' ? 'No' : '')}"/>
+                </p:column>
+                <p:column headerText="Rank">
+                    <h:outputText value="#{goodGuy.rank}"/>
+                </p:column>
+                <p:column headerText="Accepted Matches" style="text-align: center" width="800">
+                    <p:dataTable value="#{goodGuy.acceptedMatches}" var="match">
+                        <p:column headerText="Check Sum">
+                            <h:outputText value="#{match.checkSum}"/>
+                        </p:column>
+                        <p:column headerText="External ID">
+                            <h:outputText value="#{match.externalID}"/>
+                        </p:column>
+                        <p:column headerText="List Name">
+                            <h:outputText value="#{match.listName}"/>
+                        </p:column>
+                        <p:column headerText="Accepted Match">
+                            <h:outputText value="#{match.acceptedMatch}"/>
+                        </p:column>
+                        <p:column headerText="Entity Main Name">
+                            <h:outputText value="#{match.entityMainName}"/>
+                        </p:column>
+                    </p:dataTable>
+                </p:column>
+            </p:dataTable>
+
+            <p:panel header="Export Data to PDF">
+                <p:commandButton value="Export PDF" action="#{exportPDFBean.generatePDF}" icon="pi pi-file-pdf" update="messages" ajax="false"/>
+                <p:messages for="messages" showDetail="true" showSummary="true"/>
+            </p:panel>
+        </h:form>
+        <h:form id="notificationForm" transient="true">
+            <p:panel header="Current Notification">
+                <p:outputPanel id="notificationPanel">
+                    <h:outputText value="#{notificationBean.displayNotification}" />
+                </p:outputPanel>
+            </p:panel>
+            <p:poll interval="2" listener="#{notificationBean.refresh}" update="notificationPanel" autoStart="true" />
+        </h:form>
+    </h:body>
+</html>
